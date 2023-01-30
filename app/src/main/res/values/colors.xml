@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary_color_lighter">#A3E9FF</color>
+    <color name="primary_color">#FF7ADFFF</color>
+    <color name="primary_color_stronger">#3DCDFB</color>
+    <color name="primary_color_darker">#407585</color>
+    <color name="access_button_color">#FF6EE381</color>
+    <color name="signup_button_color">#FF6B95FF</color>
+    <color name="signup_return_color">#FFFF4545</color>
 </resources>

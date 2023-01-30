@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PokeapiApp</string>
+    <string name="email_field_placeholder">Email</string>
+    <string name="password_field_placeholder">Senha</string>
+    <string name="pokeapi_logo">Pokeapi Logo</string>
+    <string name="access_button_text">Entrar</string>
+    <string name="signup_button_text">Criar conta</string>
+    <string name="password_confirmation_field_placeholder">Confirme a senha</string>
+    <string name="username_field_placeholder">Nome</string>
+    <string name="return_login_button_text">Retornar</string>
+    <string name="login_button_text">Login</string>
 </resources>

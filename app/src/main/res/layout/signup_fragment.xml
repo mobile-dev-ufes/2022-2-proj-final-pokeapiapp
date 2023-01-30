@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/primary_color">
+
+    <ImageView
+        android:id="@+id/pokeapi_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/pokeapi_logo"
+        android:src="@drawable/pokeapi_256"
+        app:layout_constraintBottom_toTopOf="@id/email_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        />
+
+    <EditText
+        android:id="@+id/email_field"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="@string/email_field_placeholder"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pokeapi_logo"
+        app:layout_constraintBottom_toTopOf="@id/password_field"
+        android:background="@color/white"
+        android:inputType="textEmailAddress"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/password_field"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:hint="@string/password_field_placeholder"
+        android:padding="10dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@id/password_confirmation_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_field"
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/password_confirmation_field"
+        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:background="@color/white"
+        android:hint="@string/password_confirmation_field_placeholder"
+        android:padding="10dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_field"
+        app:layout_constraintBottom_toTopOf="@id/username_field"
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/username_field"
+        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:background="@color/white"
+        android:hint="@string/username_field_placeholder"
+        android:padding="10dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_confirmation_field"
+        app:layout_constraintBottom_toTopOf="@id/access_button"
+        android:inputType="text"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/access_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/access_button_color"
+        android:text="@string/access_button_text"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username_field"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
