@@ -23,6 +23,7 @@ class PokeapiActivity : AppCompatActivity() {
     fun setBottomNaviation(){
         val navHostFrag = supportFragmentManager.findFragmentById(R.id.pokeapi_container_view) as NavHostFragment
         val navController = navHostFrag.navController
+
         binding.bottomNavMenu.setupWithNavController(navController)
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 
 class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
@@ -19,7 +20,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         savedInstanceState: Bundle?
     ): View? {
         _binding = PokemonListFragmentBinding.inflate(inflater, container, false)
-
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         return binding.root
     }
 
