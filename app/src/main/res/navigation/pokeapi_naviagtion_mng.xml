@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pokeapi_naviagtion_mng"
+    app:startDestination="@id/pokemonListFragment">
+
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.mobile.pokeapiapp.PokemonListFragment"
+        android:label="PokemonListFragment">
+        <action
+            android:id="@+id/action_pokemonListFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonBattleFragment"
+            app:destination="@id/pokemonBattleFragment" />
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonFavoritesFragment"
+            app:destination="@id/pokemonFavoritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonBattleFragment"
+        android:name="com.mobile.pokeapiapp.PokemonBattleFragment"
+        android:label="PokemonBattleFragment">
+        <action
+            android:id="@+id/action_pokemonBattleFragment_to_pokemonListFragment"
+            app:destination="@id/pokemonListFragment" />
+        <action
+            android:id="@+id/action_pokemonBattleFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_pokemonBattleFragment_to_pokemonFavoritesFragment"
+            app:destination="@id/pokemonFavoritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonFavoritesFragment"
+        android:name="com.mobile.pokeapiapp.PokemonFavoritesFragment"
+        android:label="PokemonFavoritesFragment">
+        <action
+            android:id="@+id/action_pokemonFavoritesFragment_to_pokemonBattleFragment"
+            app:destination="@id/pokemonBattleFragment" />
+        <action
+            android:id="@+id/action_pokemonFavoritesFragment_to_pokemonListFragment"
+            app:destination="@id/pokemonListFragment" />
+        <action
+            android:id="@+id/action_pokemonFavoritesFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.mobile.pokeapiapp.UserFragment"
+        android:label="UserFragment">
+        <action
+            android:id="@+id/action_userFragment_to_pokemonListFragment"
+            app:destination="@id/pokemonListFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_pokemonBattleFragment"
+            app:destination="@id/pokemonBattleFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_pokemonFavoritesFragment"
+            app:destination="@id/pokemonFavoritesFragment" />
+    </fragment>
+
+</navigation>

@@ -16,5 +16,9 @@
     <string name="toast_signup_password_check">Senhas informadas não são iguais</string>
     <string name="toast_login_email_required">Informe email</string>
     <string name="toast_login_password_required">Informe senha</string>
+    <string name="battle">Batalha</string>
+    <string name="favorites">Favoritos</string>
+    <string name="list">Lista</string>
+    <string name="user">Usuário</string>
 
 </resources>
