@@ -3,18 +3,29 @@
     <string name="email_field_placeholder">Email</string>
     <string name="password_field_placeholder">Senha</string>
     <string name="pokeapi_logo">Pokeapi Logo</string>
-    <string name="access_button_text">Cadastrar</string>
-    <string name="signup_button_text">Criar conta</string>
+    <string name="access_button_text">Entrar</string>
+    <string name="signup_button_text">Cadastrar</string>
+    <string name="signup_frag_button_text">Criar conta</string>
     <string name="password_confirmation_field_placeholder">Confirme a senha</string>
     <string name="username_field_placeholder">Nome</string>
     <string name="return_login_button_text">Retornar</string>
-    <string name="login_button_text">Login</string>
+    <string name="login_frag_button_text">Login</string>
     <string name="toast_signup_email_required">Email obrigatório</string>
     <string name="toast_signup_password_required">Senha obrigatória</string>
     <string name="toast_signup_password_check_required">Confirme a senha</string>
     <string name="toast_signup_username_required">Nome de usuário obrigatório</string>
     <string name="toast_signup_password_check">Senhas informadas não são iguais</string>
+    <string name="toast_signup_success">Usuário cadastrado</string>
+    <string name="toast_signup_exception">Cadastro com problema, tente novamente</string>
+    <string name="toast_signup_invalid_cred">Email inválido</string>
+    <string name="toast_signup_weak_pass">Digite uma senha com no mínimo 6 caracteres</string>
+    <string name="toast_signup_collision">Este e-mail já foi cadastrado</string>
+    <string name="toast_signup_connection_fail">Falha ao conectar com a internet</string>
     <string name="toast_login_email_required">Informe email</string>
     <string name="toast_login_password_required">Informe senha</string>
+    <string name="toast_login_exception">Problema com o login, tente novamente</string>
+    <string name="toast_login_invalid_user">Usuário inexistente</string>
+    <string name="toast_login_invalid_cred">Senha incorreta</string>
+    <string name="toast_login_connection_fail">Falha de conexão</string>
 
 </resources>

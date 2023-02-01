@@ -60,13 +60,13 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                         }
                     }
                     .addOnFailureListener {
-                        var errorMessage = "Problema com o login, tente novamente"
+                        var errorMessage = R.string.toast_login_exception
                         if (it is FirebaseAuthInvalidUserException) {
-                            errorMessage = "Usuário inexistente"
+                            errorMessage = R.string.toast_login_invalid_user
                         } else if (it is FirebaseAuthInvalidCredentialsException) {
-                            errorMessage = "Senha incorreta"
+                            errorMessage = R.string.toast_login_invalid_cred
                         } else if (it is FirebaseNetworkException) {
-                            errorMessage = "Falha de conexão"
+                            errorMessage = R.string.toast_login_connection_fail
                         }
                         Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
