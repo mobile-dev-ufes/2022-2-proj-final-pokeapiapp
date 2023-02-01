@@ -7,23 +7,23 @@
     tools:context=".PokeapiActivity"
 
     >
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/pokeapi_container_view"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/pokeapi_naviagtion_mng"
+        tools:layout="@layout/pokemon_list_fragment"
+        />
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/pokeapi_container_view"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/pokeapi_naviagtion_mng"
-            tools:layout="@layout/pokemon_list_fragment"
-            />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavMenu"

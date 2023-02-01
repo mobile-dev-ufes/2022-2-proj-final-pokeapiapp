@@ -4,27 +4,27 @@
 
     <item
 
+        android:id="@+id/pokemonFavoritesFragment"
         android:title="@string/favorites"
-        android:id="@+id/favorites"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/star"
-        />
-    <item
-        android:title="@string/battle"
-        android:id="@+id/battle"
         app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/pokemonBattleFragment"
+        android:title="@string/battle"
         android:icon="@drawable/battle"
+        app:showAsAction="ifRoom"
         />
     <item
+        android:id="@+id/pokemonListFragment"
         android:title="@string/list"
-        android:id="@+id/list"
-        app:showAsAction="always"
         android:icon="@drawable/search"
+        app:showAsAction="always"
         />
     <item
+        android:id="@+id/userFragment"
         android:title="@string/user"
-        app:showAsAction="always"
         android:icon="@drawable/user"
-        android:id="@+id/user"
+        app:showAsAction="always"
         />
 </menu>
