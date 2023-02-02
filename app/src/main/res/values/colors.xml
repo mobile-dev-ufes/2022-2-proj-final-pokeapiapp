@@ -16,4 +16,9 @@
     <color name="signup_return_color">#FFFF4545</color>
     <color name="colorAccent">#FF000000</color>
     <color name="selected_item">#AE1F1F</color>
+    <color name="gray_1">#F4F4F4</color>
+    <color name="gray_2">#D9D9D9</color>
+    <color name="gray_3">#B7B7B7</color>
+    <color name="gray_4">#929292</color>
+    <color name="gray_5">#555555</color>
 </resources>
