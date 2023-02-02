@@ -25,30 +25,43 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.login_button)
         val signupButton = findViewById<Button>(R.id.signup_button)
 
-        loginButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_lighter, theme))
+        disableButton(loginButton)
 
         loginButton.setOnClickListener {
             val fragmentInstance = supportFragmentManager.findFragmentById(R.id.access_fragment_container_view)
             if(fragmentInstance is SignUpFragment){
-                signupButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_stronger, theme))
+                enableButton(signupButton)
             }
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add<LoginFragment>(R.id.access_fragment_container_view)
             }
-            loginButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_lighter, theme))
+            disableButton(loginButton)
         }
 
         signupButton.setOnClickListener {
             val fragmentInstance = supportFragmentManager.findFragmentById(R.id.access_fragment_container_view)
             if(fragmentInstance is LoginFragment){
-                loginButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_stronger, theme))
+                enableButton(loginButton)
             }
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add<SignUpFragment>(R.id.access_fragment_container_view)
             }
-            signupButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_lighter, theme))
+            disableButton(signupButton)
         }
+    }
+
+    private fun disableButton(button: Button){
+        button.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_lighter, theme))
+        button.isEnabled = false
+    }
+    private fun enableButton(button: Button){
+        button.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_stronger, theme))
+        button.isEnabled = true
+    }
+    public fun onSignUp() {
+        disableButton(binding.loginButton)
+        enableButton(binding.signupButton)
     }
 }
