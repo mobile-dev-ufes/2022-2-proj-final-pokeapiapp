@@ -1,19 +1,18 @@
 package com.mobile.pokeapiapp
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.SignupFragmentBinding
 
 class SignUpFragment : Fragment() {
@@ -21,6 +20,7 @@ class SignUpFragment : Fragment() {
     private var _binding : SignupFragmentBinding? = null
     private val binding get() = _binding!!
     private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,11 +64,10 @@ class SignUpFragment : Fragment() {
                     if (it.isSuccessful) {
                         Toast.makeText(activity, R.string.toast_signup_success, Toast.LENGTH_SHORT).show()
                         (activity as MainActivity).onSignUp()
+                        addUser(name)
                         val transaction = requireActivity().supportFragmentManager.beginTransaction()
                         transaction.replace(R.id.access_fragment_container_view, LoginFragment())
                         transaction.commit()
-//                        val navControl = findNavController()
-//                        navControl.navigate(R.id.action_signUpFragment_to_loginFragment)
                     }
                 }.addOnFailureListener {
                     var errorMessage = R.string.toast_signup_exception
@@ -85,5 +84,18 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun addUser(name: String){
+        val user = User(name, mutableListOf())
+        val currentUserId = auth.currentUser?.uid.toString()
+        db.collection("user").document(currentUserId)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Usuário salvo no banco com sucesso")
+            }
+            .addOnFailureListener {
+                Log.d("Firestore", "Usuário não salvo no banco", it)
+            }
     }
 }

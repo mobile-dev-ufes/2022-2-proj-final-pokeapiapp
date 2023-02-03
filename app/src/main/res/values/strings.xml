@@ -31,5 +31,8 @@
     <string name="favorites">Favoritos</string>
     <string name="list">Lista</string>
     <string name="user">Usuário</string>
+    <string name="name_section_text">NOME</string>
+    <string name="email_section_text">EMAIL</string>
+    <string name="logout_button_text">SAIR</string>
 
 </resources>
