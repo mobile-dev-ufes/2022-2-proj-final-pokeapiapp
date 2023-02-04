@@ -25,8 +25,6 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
     private val VIEW_TYPE_LOADING = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.e("UID",auth.uid.toString())
-
 
         db.collection("user").document(auth.uid.toString())
             .get()

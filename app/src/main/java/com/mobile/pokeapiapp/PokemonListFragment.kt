@@ -24,8 +24,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     val bpService = ClientRetrofit.createPokemonListService()
     private var isLoading = false
     lateinit var pokemonList: PokemonListModel
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+
 
 
     override fun onCreateView(
