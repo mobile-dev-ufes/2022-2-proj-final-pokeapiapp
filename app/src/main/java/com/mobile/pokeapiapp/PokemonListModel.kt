@@ -10,6 +10,8 @@ class PokemonListModel {
     var next: String = ""
 
     @SerializedName("results")
-    val results: MutableList<PokemonAdapter.Pokemon?> = mutableListOf()
+    val results: MutableList<Pokemon?> = mutableListOf()
+
+    data class Pokemon(val name: String, val url: String)
 
 }

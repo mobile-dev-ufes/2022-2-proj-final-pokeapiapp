@@ -4,19 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import android.widget.ProgressBar
 
 
-
-class PokemonAdapter(private val pokemonList: MutableList<Pokemon?>) :
+class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokemon?>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_LOADING = 0
-
-    data class Pokemon(val name: String, val url: String)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if(viewType == VIEW_TYPE_LOADING) {
@@ -56,13 +53,12 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon?>) :
         }
     }
 
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val pokemonName = itemView.findViewById<TextView>(R.id.pkmnameID)
         private val pokemonImage = itemView.findViewById<ImageView>(R.id.pkmitemID)
         private val favoriteImage = itemView.findViewById<ImageView>(R.id.pkmfavID)
         private val plusImage = itemView.findViewById<ImageView>(R.id.pkmaddID)
-        fun bind(pokemon: Pokemon) {
+        fun bind(pokemon: PokemonListModel.Pokemon) {
             val pkmId = extractPokemonNumber(pokemon.url)
             val imgUrl =
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pkmId.png"
@@ -76,11 +72,8 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon?>) :
             val regex = """/pokemon/(\d+)/""".toRegex()
             return regex.find(url)?.groupValues?.get(1)?.toInt()
         }
-
-
-
-
     }
+
 
 }
 
