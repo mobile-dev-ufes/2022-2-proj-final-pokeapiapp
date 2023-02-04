@@ -2,13 +2,14 @@ package com.mobile.pokeapiapp
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,14 +23,16 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     private val binding get() = _binding!!
     val bpService = ClientRetrofit.createPokemonListService()
     private var isLoading = false
-    lateinit var pokemonList : PokemonListModel
+    lateinit var pokemonList: PokemonListModel
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
         _binding = PokemonListFragmentBinding.inflate(inflater, container, false)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
@@ -39,12 +42,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             binding.recyclerView.adapter = PokemonAdapter(pokemonList.results)
         }
 
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled( recyclerView: RecyclerView, idx: Int, dy: Int){
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, idx: Int, dy: Int) {
                 super.onScrolled(recyclerView, idx, dy)
-                val layoutManager:LinearLayoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-                if (!isLoading){
-                    if(layoutManager.findLastCompletelyVisibleItemPosition() >=  pokemonList.results.size-1){
+                val layoutManager: LinearLayoutManager =
+                    binding.recyclerView.layoutManager as LinearLayoutManager
+                if (!isLoading) {
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() >= pokemonList.results.size - 1) {
                         isLoading = true
                         loadList()
                     }
@@ -77,12 +81,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
                     pokemonList.results.addAll(newList.results)
                     binding.recyclerView.post(object : Runnable {
                         override fun run() {
-                            binding.recyclerView.adapter!!.notifyItemInserted(pokemonList.results.size-1)
+                            binding.recyclerView.adapter!!.notifyItemInserted(pokemonList.results.size - 1)
                         }
                     })
                     isLoading = false
                 }
-            } },1000)
+            }
+        }, 1000)
     }
 
 
@@ -111,3 +116,4 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
 
 }
+
