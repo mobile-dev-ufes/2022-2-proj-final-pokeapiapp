@@ -31,6 +31,9 @@
     <string name="favorites">Favoritos</string>
     <string name="list">Lista</string>
     <string name="user">Usuário</string>
+    <string name="pkm_add_desc">Adicionar pokemon a batalha</string>
+    <string name="add_fav_desc">Adicionar pokemon aos favoritos</string>
+    <string name="pkm_img_desc">Imagem do Pokemon</string>
     <string name="name_section_text">NOME</string>
     <string name="email_section_text">EMAIL</string>
     <string name="logout_button_text">SAIR</string>
