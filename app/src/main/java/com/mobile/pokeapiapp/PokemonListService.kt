@@ -15,6 +15,9 @@ interface PokemonListService {
     fun getPokemonList(): Call<PokemonListModel>
 
     @GET("pokemon/{pokemonId}")
-    fun getSinglePost(@Path("pokemonId")postId: Int): Call<PokemonModel>
+    fun getPokemonById(@Path("pokemonId")postId: Int): Call<PokemonModel>
+
+    @GET("pokemon/{pokemonId}")
+    fun getPokemonByName(@Path("pokemonId")postId: Int): Call<PokemonModel>
 
 }

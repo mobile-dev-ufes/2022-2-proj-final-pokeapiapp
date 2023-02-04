@@ -34,5 +34,13 @@
     <string name="name_section_text">NOME</string>
     <string name="email_section_text">EMAIL</string>
     <string name="logout_button_text">SAIR</string>
+    <string name="hp_attr_text">PV:</string>
+    <string name="attack_attr_text">Ataque:</string>
+    <string name="defense_attr_text">Defesa:</string>
+    <string name="special_attack_attr_text">Ataque especial:</string>
+    <string name="special_defense_attr_text">Defesa especial:</string>
+    <string name="speed_attr_text">Velocidade:</string>
+    <string name="total_attr_text">Total:</string>
+    <string name="pokemon_default_header">Pokemon</string>
 
 </resources>

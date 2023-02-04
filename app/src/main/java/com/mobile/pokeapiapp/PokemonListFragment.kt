@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.liveData
+import androidx.navigation.fragment.findNavController
+//import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
     private var _binding: PokemonListFragmentBinding? = null
     private val binding get() = _binding!!
-    val bpService = ClientRetrofit.createPokemonListService()
+    val pokeapiService = ClientRetrofit.createPokemonListService()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,12 +36,19 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             binding.recyclerView.adapter = PokemonAdapter(pokemonList.results)
         }
 
+        // APAGAR vvvvvvv
+        binding.botaoTest.setOnClickListener{
+            val action = PokemonListFragmentDirections.actionPokemonListFragmentToPokemonFragment(1)
+            findNavController().navigate(action)
+        }
+        // APAGAR ^^^^^^^
+
         return binding.root
     }
 
     private suspend fun getPokemonList(): PokemonListModel {
         return withContext(Dispatchers.IO) {
-            val call = bpService.getPokemonList()
+            val call = pokeapiService.getPokemonList()
             val response = call.execute()
             if (response.isSuccessful) {
                 response.body()!!
@@ -50,6 +58,6 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         }
     }
 
-    suspend fun getPokeList() = bpService.getPokemonList()
+    suspend fun getPokeList() = pokeapiService.getPokemonList()
 
 }

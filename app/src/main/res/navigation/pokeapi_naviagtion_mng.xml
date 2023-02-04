@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_pokemonListFragment_to_pokemonFavoritesFragment"
             app:destination="@id/pokemonFavoritesFragment" />
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonFragment"
+            app:destination="@id/pokemonFragment" />
     </fragment>
     <fragment
         android:id="@+id/pokemonBattleFragment"
@@ -31,6 +34,9 @@
         <action
             android:id="@+id/action_pokemonBattleFragment_to_pokemonFavoritesFragment"
             app:destination="@id/pokemonFavoritesFragment" />
+        <action
+            android:id="@+id/action_pokemonBattleFragment_to_pokemonFragment"
+            app:destination="@id/pokemonFragment" />
     </fragment>
     <fragment
         android:id="@+id/pokemonFavoritesFragment"
@@ -45,6 +51,9 @@
         <action
             android:id="@+id/action_pokemonFavoritesFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_pokemonFavoritesFragment_to_pokemonFragment"
+            app:destination="@id/pokemonFragment" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
@@ -59,6 +68,23 @@
         <action
             android:id="@+id/action_userFragment_to_pokemonFavoritesFragment"
             app:destination="@id/pokemonFavoritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonFragment"
+        android:name="com.mobile.pokeapiapp.PokemonFragment"
+        android:label="PokemonFragment" >
+        <action
+            android:id="@+id/action_pokemonFragment_to_pokemonBattleFragment"
+            app:destination="@id/pokemonBattleFragment" />
+        <action
+            android:id="@+id/action_pokemonFragment_to_pokemonListFragment"
+            app:destination="@id/pokemonListFragment" />
+        <action
+            android:id="@+id/action_pokemonFragment_to_pokemonFavoritesFragment"
+            app:destination="@id/pokemonFavoritesFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 
 </navigation>

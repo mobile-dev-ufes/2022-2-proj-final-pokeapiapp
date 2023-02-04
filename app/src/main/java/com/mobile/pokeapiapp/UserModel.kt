@@ -1,6 +1,6 @@
 package com.mobile.pokeapiapp
 
-data class User(
+data class UserModel(
     val name: String? = null,
     val favorites: List<Int>? = null
 )
