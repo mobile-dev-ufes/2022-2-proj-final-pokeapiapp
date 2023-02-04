@@ -21,8 +21,8 @@ class ClientRetrofit {
             }
             return INSTANCE
         }
-        fun createPokemonListService(): PokemonListService {
-            return getClientInstance().create(PokemonListService::class.java)
+        fun createPokemonListService(): PokemonService {
+            return getClientInstance().create(PokemonService::class.java)
         }
 
     }
