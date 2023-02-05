@@ -17,7 +17,7 @@ class PokemonViewModel: ViewModel() {
     }
 
     fun requestPokemonById(id: Int) {
-        val pokemonResponse: Call<PokemonModel> = pokeapiService.getPokemonById(id)
+        val pokemonResponse: Call<PokemonModel> = pokeapiService.getPokemon(id)
         pokemonResponse.enqueue(object : Callback<PokemonModel> {
             override fun onResponse(call: Call<PokemonModel>, response: Response<PokemonModel>) {
                 pokemon.value = response.body()
