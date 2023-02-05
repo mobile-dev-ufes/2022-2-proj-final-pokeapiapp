@@ -3,27 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/listFragment">
+    android:id="@+id/listFragment"
+    android:padding="20dp">
+<!--    <EditText-->
+<!--        android:id="@+id/find_pkm"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="10dp"-->
+<!--        android:hint="@string/find_text"-->
+<!--        android:textAlignment="viewStart"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+
+<!--        android:background="@color/white"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:importantForAutofill="no"-->
+<!--        android:paddingBottom="20dp"-->
+<!--        android:drawableEnd="@drawable/search"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        />-->
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/find_text"
+            android:id="@+id/find_pkm"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@android:color/transparent"
+
+            />
+
+        <ImageButton
+            android:id="@+id/search_pkm"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/search"
+            android:layout_centerVertical="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="@id/find_pkm"
+            android:background="@android:color/transparent"
+            />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/find_pkm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
-
-    <Button
-        android:id="@+id/botao_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vai pro pokemon"
-        android:backgroundTint="@color/signup_return_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

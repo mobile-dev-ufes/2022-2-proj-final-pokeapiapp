@@ -1,9 +1,9 @@
 package com.mobile.pokeapiapp
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -15,10 +15,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 
-class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokemon?>) :
+class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokemon?>,private val context: PokemonListFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private lateinit var itemClickListener: OnItemClickListener
 
     var favorites  = mutableListOf<Int>()
 
@@ -45,6 +46,14 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
             .inflate(R.layout.pokemon_list_item, parent, false)
         return ViewHolder(view)
     }
+    fun filterList(filterlist: MutableList<PokemonListModel.Pokemon?>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        pokemonList = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount() =  pokemonList.size
 
@@ -54,7 +63,8 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is ViewHolder) {
 //            Log.e("BOOL", favorites.contains(position).toString() + position)
-            pokemonList[position]?.let { holder.bind(it, favorites.contains(position)) }
+
+            pokemonList[position]?.let { holder.bind(it, favorites.contains(position),context) }
         }
         else
             showLoadingView(holder as LoadingViewHolder, position)
@@ -62,9 +72,13 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
     }
     private fun showLoadingView(
         loadingViewHolder: LoadingViewHolder,
-        position: Int
+        position: Int,
     ) {
 
+    }
+
+    fun setOnClickListener(listener: OnItemClickListener){
+        this.itemClickListener = listener
     }
 
     class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -73,6 +87,10 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
         init {
             progressBar.visibility = View.VISIBLE
         }
+    }
+
+    class PokemonNotFind(itemView: View) : RecyclerView.ViewHolder(itemView){
+
     }
 
 
@@ -86,10 +104,11 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
         private val auth = FirebaseAuth.getInstance()
         private var favorite = false
 
-        fun bind(pokemon: PokemonListModel.Pokemon,favorite : Boolean) {
+        fun bind(pokemon: PokemonListModel.Pokemon,favorite : Boolean, context: PokemonListFragment) {
+
             val pkmId = extractPokemonNumber(pokemon.url)
             this.favorite = favorite
-
+            itemView.setOnClickListener { context .showCustomDialog(pkmId) }
             val imgUrl =
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pkmId.png"
             val pattern = "(.*)-".toRegex()
@@ -127,9 +146,9 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
 
 
 
-        fun extractPokemonNumber(url: String): Int? {
-            val regex = """/pokemon/(\d+)/""".toRegex()
-            return regex.find(url)?.groupValues?.get(1)?.toInt()
+        fun extractPokemonNumber(url: String): Int {
+            val regex = """/pokemon/(\d+).*""".toRegex()
+            return regex.find(url)?.groupValues?.get(1)!!.toInt()
         }
     }
 
