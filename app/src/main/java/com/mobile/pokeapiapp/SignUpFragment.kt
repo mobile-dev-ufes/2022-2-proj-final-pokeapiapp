@@ -87,7 +87,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun addUser(name: String){
-        val user = User(name, mutableListOf())
+        val user = UserModel(name, mutableListOf())
         val currentUserId = auth.currentUser?.uid.toString()
         db.collection("user").document(currentUserId)
             .set(user)

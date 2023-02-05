@@ -1,5 +1,6 @@
 package com.mobile.pokeapiapp
 
+import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 
 class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
@@ -54,6 +54,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
                 }
             }
         })
+
+        // APAGAR vvvvvvv
+        binding.botaoTest.setOnClickListener{
+            showCustomDialog(1)
+        }
+        // APAGAR ^^^^^^^
 
         return binding.root
     }
@@ -102,6 +108,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         }
     }
 
+    fun showCustomDialog(pokemonId: Int){
+        val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
+        val pokemonIdArg = Bundle()
+        pokemonIdArg.putInt("id", pokemonId)
+        pokemonBottomSheet.arguments = pokemonIdArg
+        pokemonBottomSheet.show(requireActivity().supportFragmentManager, pokemonBottomSheet.tag)
+    }
     private suspend fun getPokemonList(offset: Int): PokemonListModel {
         return withContext(Dispatchers.IO) {
             val call = bpService.getPokemonList(offset)
@@ -115,4 +128,3 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
 
 }
-

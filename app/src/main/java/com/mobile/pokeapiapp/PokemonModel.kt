@@ -2,8 +2,9 @@ package com.mobile.pokeapiapp
 
 import com.google.gson.annotations.SerializedName
 
-class PokemonModel (@SerializedName("id") var id: Int = 0){
-
+class PokemonModel {
+    @SerializedName("id")
+    var id: Int = 0
     @SerializedName("name")
     var name: String = ""
     @SerializedName("sprites")
