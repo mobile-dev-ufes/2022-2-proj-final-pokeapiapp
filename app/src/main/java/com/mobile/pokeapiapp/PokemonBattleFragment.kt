@@ -46,13 +46,6 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         return binding.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        if (isBothPokemonSet){
-//            fight()
-//        }
-//    }
-
     private fun setPokemon1Observer(){
         pokemonVM.getPokemon1LiveData().observe(viewLifecycleOwner) {
             if (isFirstTimeObserverPokemon1) {
