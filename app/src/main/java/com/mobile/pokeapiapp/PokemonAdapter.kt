@@ -1,5 +1,6 @@
 package com.mobile.pokeapiapp
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 
-class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokemon?>,private val context: PokemonListFragment) :
+class PokemonAdapter(
+    private var pokemonList: MutableList<PokemonListModel.Pokemon?>,
+    private val context: PokemonListFragment,
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private lateinit var itemClickListener: OnItemClickListener
 
-    var favorites  = mutableListOf<Int>()
+    var favorites = mutableListOf<Int>()
 
     private val VIEW_TYPE_LOADING = 0
 
@@ -32,44 +36,58 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
             .addOnSuccessListener { document ->
                 val favs = document.get("favorites") as List<Int>
 
-                favs.forEach { it->this.favorites.add(it-1); this.notifyItemChanged(it-1) }
+                favs.forEach { it -> this.favorites.add(it ); this.notifyItemChanged(it-1) }
             }
 
 //        Log.e("print",favorites.size.toString())
 //        favorites.forEach { it->Log.e("FAV",it.toString()) }
-        if(viewType == VIEW_TYPE_LOADING) {
+        if (viewType == VIEW_TYPE_LOADING) {
             val view: View =
-                LayoutInflater.from(parent.context).inflate(R.layout.pokemon_loading_item, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.pokemon_loading_item, parent, false)
             return LoadingViewHolder(view)
         }
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.pokemon_list_item, parent, false)
         return ViewHolder(view)
     }
+
     fun filterList(filterlist: MutableList<PokemonListModel.Pokemon?>) {
-        // below line is to add our filtered
-        // list in our course array list.
+
         pokemonList = filterlist
-        // below line is to notify our adapter
-        // as change in recycler view data.
+        if (filterlist.size == 1) {
+            favorites.clear()
+            db.collection("user").document(auth.uid.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    val favs = document.get("favorites") as List<Int>
+
+                    if (filterlist.get(0)!!.let { favs.contains(it.idx) }) {
+                        favorites.add(filterlist.get(0)!!.idx)
+                    }
+
+                }
+        }
+
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() =  pokemonList.size
+    override fun getItemCount() = pokemonList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (pokemonList.get(position) == null)  0 else pokemonList.size
+        return if (pokemonList.get(position) == null) 0 else pokemonList.size
     }
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is ViewHolder) {
-//            Log.e("BOOL", favorites.contains(position).toString() + position)
 
-            pokemonList[position]?.let { holder.bind(it, favorites.contains(position),context) }
-        }
-        else
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ViewHolder) {
+            val idx = holder.extractPokemonNumber(pokemonList[position]!!.url)
+
+            pokemonList[position]?.let { holder.bind(it, favorites.contains(idx), context) }
+        } else
             showLoadingView(holder as LoadingViewHolder, position)
 
     }
+
     private fun showLoadingView(
         loadingViewHolder: LoadingViewHolder,
         position: Int,
@@ -77,7 +95,7 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
 
     }
 
-    fun setOnClickListener(listener: OnItemClickListener){
+    fun setOnClickListener(listener: OnItemClickListener) {
         this.itemClickListener = listener
     }
 
@@ -89,7 +107,7 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
         }
     }
 
-    class PokemonNotFind(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class PokemonNotFind(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
 
@@ -104,40 +122,51 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
         private val auth = FirebaseAuth.getInstance()
         private var favorite = false
 
-        fun bind(pokemon: PokemonListModel.Pokemon,favorite : Boolean, context: PokemonListFragment) {
+        fun bind(
+            pokemon: PokemonListModel.Pokemon,
+            favorite: Boolean,
+            context: PokemonListFragment,
+        ) {
 
             val pkmId = extractPokemonNumber(pokemon.url)
             this.favorite = favorite
-            itemView.setOnClickListener { context .showCustomDialog(pkmId) }
+            itemView.setOnClickListener { context.showCustomDialog(pkmId) }
             val imgUrl =
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pkmId.png"
             val pattern = "(.*)-".toRegex()
             pokemonName.text = pattern.find(pokemon.name)?.groupValues?.get(1)?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-            } ?: pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+            }
+                ?: pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
             Glide.with(itemView.context).load(imgUrl).into(pokemonImage)
-            if(!this.favorite)
-                Glide.with(itemView.context).load("https://cdn-icons-png.flaticon.com/512/149/149222.png").into(favoriteImage)
+            if (!this.favorite)
+                Glide.with(itemView.context)
+                    .load("https://cdn-icons-png.flaticon.com/512/149/149222.png")
+                    .into(favoriteImage)
             else
-                Glide.with(itemView.context).load("https://cdn-icons-png.flaticon.com/512/149/149765.png").into(favoriteImage)
+                Glide.with(itemView.context)
+                    .load("https://cdn-icons-png.flaticon.com/512/149/149765.png")
+                    .into(favoriteImage)
             favoriteImage.setOnClickListener {
-                addFatorite(pkmId)
+                addFavorite(pkmId)
             }
             plusImage.setOnClickListener({})
         }
-        private fun addFatorite(pkmId: Int?) {
-            if (!favorite){
-                Glide.with(itemView.context).load("https://cdn-icons-png.flaticon.com/512/149/149765.png").into(favoriteImage)
+
+        private fun addFavorite(pkmId: Int?) {
+            if (!favorite) {
+                Glide.with(itemView.context)
+                    .load("https://cdn-icons-png.flaticon.com/512/149/149765.png")
+                    .into(favoriteImage)
                 favorite = true
                 db.collection("user").document(auth.uid.toString())
-                    .update("favorites",FieldValue.arrayUnion(pkmId))
-            }
-            else {
+                    .update("favorites", FieldValue.arrayUnion(pkmId))
+            } else {
                 Glide.with(itemView.context)
                     .load("https://cdn-icons-png.flaticon.com/512/149/149222.png")
                     .into(favoriteImage)
                 db.collection("user").document(auth.uid.toString())
-                    .update("favorites",FieldValue.arrayRemove(pkmId))
+                    .update("favorites", FieldValue.arrayRemove(pkmId))
                 favorite = false
 
             }
@@ -145,13 +174,11 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
         }
 
 
-
         fun extractPokemonNumber(url: String): Int {
             val regex = """/pokemon/(\d+).*""".toRegex()
             return regex.find(url)?.groupValues?.get(1)!!.toInt()
         }
     }
-
 
 
 }
