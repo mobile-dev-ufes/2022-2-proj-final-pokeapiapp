@@ -1,13 +1,12 @@
 package com.mobile.pokeapiapp
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-//import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.CoroutineScope
@@ -38,8 +37,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
         // APAGAR vvvvvvv
         binding.botaoTest.setOnClickListener{
-            val action = PokemonListFragmentDirections.actionPokemonListFragmentToPokemonFragment(1)
-            findNavController().navigate(action)
+            showCustomDialog(1)
         }
         // APAGAR ^^^^^^^
 
@@ -59,5 +57,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
 
     suspend fun getPokeList() = pokeapiService.getPokemonList()
+
+    fun showCustomDialog(pokemonId: Int){
+        val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
+        val pokemonIdArg = Bundle()
+        pokemonIdArg.putInt("id", pokemonId)
+        pokemonBottomSheet.arguments = pokemonIdArg
+        pokemonBottomSheet.show(requireActivity().supportFragmentManager, pokemonBottomSheet.tag)
+    }
 
 }

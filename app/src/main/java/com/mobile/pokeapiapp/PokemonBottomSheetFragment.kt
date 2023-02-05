@@ -1,21 +1,28 @@
 package com.mobile.pokeapiapp
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.TextView
+import androidx.core.view.setPadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.pokeapiapp.databinding.PokemonFragmentBinding
+import java.util.*
 
-class PokemonFragment:Fragment(R.layout.pokemon_fragment) {
+class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: PokemonFragmentBinding? = null
     private val binding get() = _binding!!
-    private val args: PokemonFragmentArgs by navArgs()
+
+    //    private val args: PokemonFragmentArgs by navArgs()
     private lateinit var pokemonVM: PokemonViewModel
+    private var pokemonId: Int = 0
+    private var isFirstTimeObserver = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,23 +34,48 @@ class PokemonFragment:Fragment(R.layout.pokemon_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        pokemonId = arguments?.getInt("id", 0)!!
         _binding = PokemonFragmentBinding.inflate(inflater, container, false)
         setObserver()
-        pokemonVM.requestPokemonById(args.id)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        pokemonVM.requestPokemonById(pokemonId)
+    }
+
+    companion object {
+        fun newInstance() = PokemonBottomSheetFragment()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        pokemonVM.getPokemon().removeObservers(this)
         _binding = null
     }
 
     private fun setObserver() {
-        pokemonVM.getPokemon().observe(requireActivity(), Observer {
+        pokemonVM.getPokemon().observe(this, Observer {
+            if (isFirstTimeObserver) {
+                isFirstTimeObserver = false
+                pokemonVM.getPokemon().removeObservers(this)
+            }
             if (it != null) {
-                binding.pokemonCardHeader.text = it.name
+                binding.pokemonCardHeader.text = it.name.replaceFirstChar {
+                    it.titlecase(Locale.getDefault())
+                }
 
                 Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemonCardSprite)
+
+                it.types.forEach { type ->
+                    val textView = TextView(this.context)
+                    textView.setText(type.type.name)
+                    textView.setPadding(Utils.convertDpToPx(this.requireContext(), 5.0).toInt())
+                    textView.setBackgroundColor(Color.parseColor(Utils.color[type.type.name]?.background))
+                    textView.setTextColor(Color.parseColor(Utils.color[type.type.name]?.fontColor))
+                    binding.pokemonCardTypes.addView(textView)
+                }
 
                 binding.hpValue.text = it.stats.get(0).baseStat.toString()
                 binding.attackValue.text = it.stats.get(1).baseStat.toString()
@@ -53,7 +85,7 @@ class PokemonFragment:Fragment(R.layout.pokemon_fragment) {
                 binding.speedValue.text = it.stats.get(5).baseStat.toString()
 
                 binding.totalValue.text =
-                    it.stats.fold(0){ acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
+                    it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
                         .toString()
             } else {
                 binding.pokemonCardHeader.text = R.string.pokemon_default_header.toString()
