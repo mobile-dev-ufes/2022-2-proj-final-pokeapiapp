@@ -3,6 +3,7 @@ package com.mobile.pokeapiapp
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     val bpService = ClientRetrofit.createPokemonListService()
     private var isLoading = false
     lateinit var pokemonList: PokemonListModel
+    val context = this
 
 
 
@@ -38,7 +40,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             pokemonList = withContext(Dispatchers.IO) {
                 getPokemonList()
             }
-            binding.recyclerView.adapter = PokemonAdapter(pokemonList.results)
+            binding.recyclerView.adapter = PokemonAdapter(pokemonList.results,context)
         }
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -109,6 +111,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
 
     fun showCustomDialog(pokemonId: Int){
+        Log.e("PKMID",pokemonId.toString())
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
         val pokemonIdArg = Bundle()
         pokemonIdArg.putInt("id", pokemonId)

@@ -2,6 +2,7 @@ package com.mobile.pokeapiapp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +20,15 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     //    private val args: PokemonFragmentArgs by navArgs()
-    private lateinit var pokemonVM: PokemonViewModel
+    private var pokemonVM: PokemonViewModel? = null
     private var pokemonId: Int = 0
     private var isFirstTimeObserver = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pokemonId = arguments?.getInt("id", 0)!!
+
         pokemonVM = ViewModelProvider(requireActivity()).get(PokemonViewModel::class.java)
     }
 
@@ -34,15 +37,15 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        pokemonId = arguments?.getInt("id", 0)!!
+        Log.e("PKMIDBOTTOM",pokemonId.toString())
         _binding = PokemonFragmentBinding.inflate(inflater, container, false)
         setObserver()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        pokemonVM?.requestPokemonById(pokemonId)
         super.onViewCreated(view, savedInstanceState)
-        pokemonVM.requestPokemonById(pokemonId)
     }
 
     companion object {
@@ -51,15 +54,18 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        pokemonVM.getPokemon().removeObservers(this)
+        pokemonVM?.getPokemon()?.removeObservers(this)
+        pokemonVM = null
         _binding = null
     }
 
     private fun setObserver() {
-        pokemonVM.getPokemon().observe(this, Observer {
+
+        pokemonVM?.getPokemon()?.observe(this, Observer {
+            Log.e("observer",it.id.toString())
             if (isFirstTimeObserver) {
                 isFirstTimeObserver = false
-                pokemonVM.getPokemon().removeObservers(this)
+                pokemonVM?.getPokemon()!!.removeObservers(this)
             }
             if (it != null) {
                 binding.pokemonCardHeader.text = it.name.replaceFirstChar {
@@ -76,7 +82,7 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
                     textView.setTextColor(Color.parseColor(Utils.color[type.type.name]?.fontColor))
                     binding.pokemonCardTypes.addView(textView)
                 }
-
+                Log.e("observer",it.name)
                 binding.hpValue.text = it.stats.get(0).baseStat.toString()
                 binding.attackValue.text = it.stats.get(1).baseStat.toString()
                 binding.defenseValue.text = it.stats.get(2).baseStat.toString()
