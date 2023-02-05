@@ -2,7 +2,6 @@ package com.mobile.pokeapiapp
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,16 +35,16 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        Log.e("PKMIDBOTTOM",pokemonId.toString())
+    ): View {
         _binding = PokemonFragmentBinding.inflate(inflater, container, false)
+
         setObserver()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        pokemonVM?.requestPokemonById(pokemonId)
         super.onViewCreated(view, savedInstanceState)
+        pokemonVM?.requestPokemonById(pokemonId)
     }
 
     companion object {
@@ -62,48 +61,48 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setObserver() {
 
         pokemonVM?.getPokemon()?.observe(this, Observer {
-            Log.e("observer",it.id.toString())
-            if (isFirstTimeObserver) {
-                isFirstTimeObserver = false
-                pokemonVM?.getPokemon()!!.removeObservers(this)
-            }
-            if (it != null) {
-                binding.pokemonCardHeader.text = it.name.replaceFirstChar {
-                    it.titlecase(Locale.getDefault())
+            if(it.id == this.pokemonId) {
+                if (isFirstTimeObserver) {
+                    isFirstTimeObserver = false
+                    pokemonVM?.getPokemon()!!.removeObservers(this)
                 }
+                if (it != null) {
+                    binding.pokemonCardHeader.text = it.name.replaceFirstChar {
+                        it.titlecase(Locale.getDefault())
+                    }
 
-                Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemonCardSprite)
+                    Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemonCardSprite)
 
-                it.types.forEach { type ->
-                    val textView = TextView(this.context)
-                    textView.setText(type.type.name)
-                    textView.setPadding(Utils.convertDpToPx(this.requireContext(), 5.0).toInt())
-                    textView.setBackgroundColor(Color.parseColor(Utils.color[type.type.name]?.background))
-                    textView.setTextColor(Color.parseColor(Utils.color[type.type.name]?.fontColor))
-                    binding.pokemonCardTypes.addView(textView)
+                    it.types.forEach { type ->
+                        val textView = TextView(this.context)
+                        textView.setText(type.type.name)
+                        textView.setPadding(Utils.convertDpToPx(this.requireContext(), 5.0).toInt())
+                        textView.setBackgroundColor(Color.parseColor(Utils.color[type.type.name]?.background))
+                        textView.setTextColor(Color.parseColor(Utils.color[type.type.name]?.fontColor))
+                        binding.pokemonCardTypes.addView(textView)
+                    }
+                    binding.hpValue.text = it.stats.get(0).baseStat.toString()
+                    binding.attackValue.text = it.stats.get(1).baseStat.toString()
+                    binding.defenseValue.text = it.stats.get(2).baseStat.toString()
+                    binding.specialAttackValue.text = it.stats.get(3).baseStat.toString()
+                    binding.specialDefenseValue.text = it.stats.get(4).baseStat.toString()
+                    binding.speedValue.text = it.stats.get(5).baseStat.toString()
+
+                    binding.totalValue.text =
+                        it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
+                            .toString()
+                } else {
+                    binding.pokemonCardHeader.text = R.string.pokemon_default_header.toString()
+
+                    binding.hpValue.text = "0"
+                    binding.attackValue.text = "0"
+                    binding.defenseValue.text = "0"
+                    binding.specialAttackValue.text = "0"
+                    binding.specialDefenseValue.text = "0"
+                    binding.speedValue.text = "0"
+
+                    binding.totalValue.text = "0"
                 }
-                Log.e("observer",it.name)
-                binding.hpValue.text = it.stats.get(0).baseStat.toString()
-                binding.attackValue.text = it.stats.get(1).baseStat.toString()
-                binding.defenseValue.text = it.stats.get(2).baseStat.toString()
-                binding.specialAttackValue.text = it.stats.get(3).baseStat.toString()
-                binding.specialDefenseValue.text = it.stats.get(4).baseStat.toString()
-                binding.speedValue.text = it.stats.get(5).baseStat.toString()
-
-                binding.totalValue.text =
-                    it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
-                        .toString()
-            } else {
-                binding.pokemonCardHeader.text = R.string.pokemon_default_header.toString()
-
-                binding.hpValue.text = "0"
-                binding.attackValue.text = "0"
-                binding.defenseValue.text = "0"
-                binding.specialAttackValue.text = "0"
-                binding.specialDefenseValue.text = "0"
-                binding.speedValue.text = "0"
-
-                binding.totalValue.text = "0"
             }
         })
 

@@ -1,22 +1,16 @@
 package com.mobile.pokeapiapp
 
-import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import java.lang.Runnable
 
 class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
@@ -26,6 +20,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     private var isLoading = false
     lateinit var pokemonList: PokemonListModel
     val context = this
+
 
 
 
@@ -111,7 +106,6 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
 
     fun showCustomDialog(pokemonId: Int){
-        Log.e("PKMID",pokemonId.toString())
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
         val pokemonIdArg = Bundle()
         pokemonIdArg.putInt("id", pokemonId)

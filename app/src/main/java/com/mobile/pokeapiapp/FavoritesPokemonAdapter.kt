@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>) :
+class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,private val context : PokemonFavoritesFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -20,7 +20,7 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).bind(favList[position])
+        (holder as ViewHolder).bind(favList[position],context)
     }
 
     override fun getItemCount() = favList.size
@@ -39,7 +39,8 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>) :
         private val db = FirebaseFirestore.getInstance()
         private val auth = FirebaseAuth.getInstance()
 
-        fun bind(pokemonModel: PokemonModel) {
+        fun bind(pokemonModel: PokemonModel, context: PokemonFavoritesFragment) {
+            itemView.setOnClickListener{context.showCustomDialog(pokemonModel.id)}
             pokemonName.text = pokemonModel.name
             Glide.with(itemView.context).load(pokemonModel.sprites.frontDefault).into(pokemonImage)
             pokemonFav.visibility = View.GONE
