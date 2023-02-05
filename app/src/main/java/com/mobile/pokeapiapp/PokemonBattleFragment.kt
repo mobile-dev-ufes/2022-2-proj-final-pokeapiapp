@@ -46,12 +46,12 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (isBothPokemonSet){
-            fight()
-        }
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        if (isBothPokemonSet){
+//            fight()
+//        }
+//    }
 
     private fun setPokemon1Observer(){
         pokemonVM.getPokemon1LiveData().observe(viewLifecycleOwner) {
@@ -71,7 +71,7 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
             pokemon1Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
 
             binding.pokemon1TotalValue.text = pokemon1Total.toString()
-
+            fight()
         }
     }
     private fun setPokemon2Observer(){
@@ -92,6 +92,7 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
             pokemon2Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
 
             binding.pokemon2TotalValue.text = pokemon2Total.toString()
+            fight()
         }
     }
 
