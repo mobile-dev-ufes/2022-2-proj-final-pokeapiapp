@@ -20,6 +20,7 @@ interface PokemonService {
                         @Query("limit") limit: Int = 20): Call<PokemonListModel>
 
     @GET("pokemon/{pokemonId}")
-    fun getSinglePost(@Path("pokemonId")postId: Int): Call<PokemonModel>
+    fun getPokemon(@Path("pokemonId")pokemonId: Int): Call<PokemonModel>
+
 
 }
