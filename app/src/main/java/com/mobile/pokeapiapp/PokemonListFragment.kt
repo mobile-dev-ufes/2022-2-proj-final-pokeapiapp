@@ -61,6 +61,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         if(name == ""){
             (binding.recyclerView.adapter as PokemonAdapter ).filterList(pokemonList.results)
             filtering= false
+            return
         }
         filtering = true
         CoroutineScope(Dispatchers.Main).launch {
