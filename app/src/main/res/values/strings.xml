@@ -45,5 +45,7 @@
     <string name="speed_attr_text">Velocidade:</string>
     <string name="total_attr_text">Total:</string>
     <string name="pokemon_default_header">Pokemon</string>
+    <string name="find_text">Nome do Pokemon</string>
+    <string name="favorite_text">Lista de Favoritos</string>
 
 </resources>

@@ -1,7 +1,5 @@
 package com.mobile.pokeapiapp
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 
-class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokemon?>,private val context: PokemonListFragment) :
+class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokemon?>,private val context: PokemonListFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -48,6 +46,14 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
             .inflate(R.layout.pokemon_list_item, parent, false)
         return ViewHolder(view)
     }
+    fun filterList(filterlist: MutableList<PokemonListModel.Pokemon?>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        pokemonList = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount() =  pokemonList.size
 
@@ -66,7 +72,7 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
     }
     private fun showLoadingView(
         loadingViewHolder: LoadingViewHolder,
-        position: Int
+        position: Int,
     ) {
 
     }
@@ -81,6 +87,10 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
         init {
             progressBar.visibility = View.VISIBLE
         }
+    }
+
+    class PokemonNotFind(itemView: View) : RecyclerView.ViewHolder(itemView){
+
     }
 
 
@@ -137,7 +147,7 @@ class PokemonAdapter(private val pokemonList: MutableList<PokemonListModel.Pokem
 
 
         fun extractPokemonNumber(url: String): Int {
-            val regex = """/pokemon/(\d+)/""".toRegex()
+            val regex = """/pokemon/(\d+).*""".toRegex()
             return regex.find(url)?.groupValues?.get(1)!!.toInt()
         }
     }

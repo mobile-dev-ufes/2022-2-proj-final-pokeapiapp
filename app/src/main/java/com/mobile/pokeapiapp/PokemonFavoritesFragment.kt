@@ -33,18 +33,20 @@ class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         db.collection("user").document(auth.uid.toString()).get().addOnSuccessListener { document ->
-            (document.get("favorites") as List<Int>).forEach {
-                CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.Main).launch {
+                val list = (document.get("favorites") as List<Int>)
+                list.forEach {
+
                     val pokemon = getPokemon(it)
                     favList.add(pokemon)
-                    if(it == (document.get("favorites") as List<Int>).last())
-                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    if (it == list.last())
+                        binding.recyclerView.adapter?.notifyItemInserted(list.size)
                 }
 
             }
 
         }
-        binding.recyclerView.adapter = FavoritesPokemonAdapter(favList,this)
+        binding.recyclerView.adapter = FavoritesPokemonAdapter(favList, this)
         return binding.root
     }
 
@@ -58,10 +60,10 @@ class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
                 throw Exception("Failed to retrieve pokemon list")
             }
         }
-
     }
-    fun showCustomDialog(pokemonId: Int){
-        Log.e("PKMID",pokemonId.toString())
+
+    fun showCustomDialog(pokemonId: Int) {
+        Log.e("PKMID", pokemonId.toString())
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
         val pokemonIdArg = Bundle()
         pokemonIdArg.putInt("id", pokemonId)

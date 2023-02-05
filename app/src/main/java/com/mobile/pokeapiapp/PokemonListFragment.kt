@@ -16,10 +16,11 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
     private var _binding: PokemonListFragmentBinding? = null
     private val binding get() = _binding!!
-    val bpService = ClientRetrofit.createPokemonListService()
+    val pokeApiService = ClientRetrofit.createPokemonListService()
     private var isLoading = false
     lateinit var pokemonList: PokemonListModel
     val context = this
+    var filtering = false
 
 
 
@@ -37,6 +38,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             }
             binding.recyclerView.adapter = PokemonAdapter(pokemonList.results,context)
         }
+        binding.searchPkm.setOnClickListener { findPokemon(binding.findPkm.text.toString()) }
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, idx: Int, dy: Int) {
@@ -52,20 +54,31 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             }
         })
 
-        // APAGAR vvvvvvv
-        binding.botaoTest.setOnClickListener{
-            showCustomDialog(1)
-        }
-        // APAGAR ^^^^^^^
 
         return binding.root
     }
+    fun findPokemon(name:String){
+        if(name == ""){
+            (binding.recyclerView.adapter as PokemonAdapter ).filterList(pokemonList.results)
+            filtering= false
+        }
+        filtering = true
+        CoroutineScope(Dispatchers.Main).launch {
+            val pokemon = getPokemon(name)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+            if(pokemon != null){
+                (binding.recyclerView.adapter as PokemonAdapter ).filterList(mutableListOf(
+                    PokemonListModel.Pokemon(pokemon.name,pokemon.sprites.frontDefault)
+                ))
+
+            }
+            else (binding.recyclerView.adapter as PokemonAdapter ).filterList(mutableListOf())
+//            binding.recyclerView.adapter!!.notifyDataSetChanged()
+
+        }
     }
-
     private fun loadList() {
+        if(filtering) return
         pokemonList.results.add(null)
         binding.recyclerView.adapter!!.notifyItemChanged(pokemonList.results.size)
         val handler = Handler()
@@ -95,7 +108,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
     private suspend fun getPokemonList(): PokemonListModel {
         return withContext(Dispatchers.IO) {
-            val call = bpService.getPokemonList()
+            val call = pokeApiService.getPokemonList()
             val response = call.execute()
             if (response.isSuccessful) {
                 response.body()!!
@@ -103,6 +116,18 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
                 throw Exception("Failed to retrieve pokemon list")
             }
         }
+    }
+    private suspend fun getPokemon(name: String): PokemonModel? {
+        return withContext(Dispatchers.IO) {
+            val call = pokeApiService.getPokemon(name)
+            val response = call.execute()
+            if (response.isSuccessful) {
+                response.body()!!
+            } else {
+                null
+            }
+        }
+
     }
 
     fun showCustomDialog(pokemonId: Int){
@@ -114,7 +139,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     }
     private suspend fun getPokemonList(offset: Int): PokemonListModel {
         return withContext(Dispatchers.IO) {
-            val call = bpService.getPokemonList(offset)
+            val call = pokeApiService.getPokemonList(offset)
             val response = call.execute()
             if (response.isSuccessful) {
                 response.body()!!

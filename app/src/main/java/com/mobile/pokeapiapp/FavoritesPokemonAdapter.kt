@@ -13,9 +13,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,private val context : PokemonFavoritesFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.pokemon_list_item, parent, false)
+
         return ViewHolder(view,this)
     }
 
@@ -45,6 +47,8 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,pri
             Glide.with(itemView.context).load(pokemonModel.sprites.frontDefault).into(pokemonImage)
             pokemonFav.visibility = View.GONE
             Glide.with(itemView.context).load("https://cdn-icons-png.flaticon.com/512/7437/7437001.png").into(pokemonPlus)
+            pokemonPlus.layoutParams.height = Utils.convertDpToPx(itemView.context,30.0).toInt()
+            pokemonPlus.layoutParams.width = Utils.convertDpToPx(itemView.context,30.0).toInt()
             pokemonPlus.setOnClickListener {
                 removeFavorite(pokemonModel.id)
             }
