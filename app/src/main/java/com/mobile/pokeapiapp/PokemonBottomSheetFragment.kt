@@ -18,7 +18,6 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: PokemonFragmentBinding? = null
     private val binding get() = _binding!!
 
-    //    private val args: PokemonFragmentArgs by navArgs()
     private lateinit var pokemonVM: PokemonViewModel
     private var pokemonId: Int = 0
     private var isFirstTimeObserver = true
@@ -51,15 +50,15 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        pokemonVM.getPokemon().removeObservers(this)
+        pokemonVM.getPokemonLiveData().removeObservers(this)
         _binding = null
     }
 
     private fun setObserver() {
-        pokemonVM.getPokemon().observe(this, Observer {
+        pokemonVM.getPokemonLiveData().observe(this, Observer {
             if (isFirstTimeObserver) {
                 isFirstTimeObserver = false
-                pokemonVM.getPokemon().removeObservers(this)
+                pokemonVM.getPokemonLiveData().removeObservers(this)
             }
             if (it != null) {
                 binding.pokemonCardHeader.text = it.name.replaceFirstChar {

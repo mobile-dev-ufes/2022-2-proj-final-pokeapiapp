@@ -1,16 +1,14 @@
 package com.mobile.pokeapiapp
 
-import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +22,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     val bpService = ClientRetrofit.createPokemonListService()
     private var isLoading = false
     lateinit var pokemonList: PokemonListModel
+    private lateinit var pokemonBattleVM : PokemonBattleViewModel
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pokemonBattleVM = ViewModelProvider(requireActivity()).get(PokemonBattleViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,15 +59,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
         // APAGAR vvvvvvv
         binding.botaoTest.setOnClickListener{
-            showCustomDialog(1)
+            pokemonBattleVM.pokemon1Id = 1
+            pokemonBattleVM.pokemon2Id = 2
         }
         // APAGAR ^^^^^^^
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     private fun loadList() {

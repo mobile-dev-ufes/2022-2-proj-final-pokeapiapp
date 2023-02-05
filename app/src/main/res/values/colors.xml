@@ -21,4 +21,8 @@
     <color name="gray_3">#B7B7B7</color>
     <color name="gray_4">#929292</color>
     <color name="gray_5">#555555</color>
+    <color name="winner_container">#A7FFB5</color>
+    <color name="draw_container">#FFF6A7</color>
+    <color name="loser_container">#FFA7A7</color>
+
 </resources>

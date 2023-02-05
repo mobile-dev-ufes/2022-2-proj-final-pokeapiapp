@@ -9,18 +9,18 @@ import retrofit2.Response
 
 class PokemonViewModel: ViewModel() {
 
-    private var pokemon = MutableLiveData<PokemonModel>()
+    private var pokemonLiveData = MutableLiveData<PokemonModel>()
     val pokeapiService = ClientRetrofit.createPokemonListService()
 
-    fun getPokemon(): LiveData<PokemonModel>{
-        return pokemon
+    fun getPokemonLiveData(): LiveData<PokemonModel>{
+        return pokemonLiveData
     }
 
     fun requestPokemonById(id: Int) {
         val pokemonResponse: Call<PokemonModel> = pokeapiService.getPokemon(id)
         pokemonResponse.enqueue(object : Callback<PokemonModel> {
             override fun onResponse(call: Call<PokemonModel>, response: Response<PokemonModel>) {
-                pokemon.value = response.body()
+                pokemonLiveData.value = response.body()
             }
 
             override fun onFailure(call: Call<PokemonModel>, t: Throwable) {

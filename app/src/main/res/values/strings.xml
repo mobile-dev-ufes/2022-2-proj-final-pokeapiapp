@@ -45,5 +45,8 @@
     <string name="speed_attr_text">Velocidade:</string>
     <string name="total_attr_text">Total:</string>
     <string name="pokemon_default_header">Pokemon</string>
+    <string name="draw_text">EMPATE</string>
+    <string name="winner_text">VENCEDOR</string>
+    <string name="loser_text">PERDEDOR</string>
 
 </resources>
