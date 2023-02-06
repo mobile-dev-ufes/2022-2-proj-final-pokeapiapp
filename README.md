@@ -43,7 +43,7 @@ Ao abrir a tela de batalha, cada slot de pokemon permite o usuário a clicar nel
 
 ### 🔎 Utilizando o app
 
-[![Apresentação PokeapiApp](https://img.youtube.com/vi/LoG6C22PbsY/0.jpg)](https://www.youtube.com/watch?v=LoG6C22PbsY "Apresentação PokeapiApp")
+[![Apresentação PokeapiApp](https://img.youtube.com/vi/5qPuP3I5ySs/0.jpg)](https://www.youtube.com/watch?v=5qPuP3I5ySs "Apresentação PokeapiApp")
 
 ## 🎨 Prototipagem
 
