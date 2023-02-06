@@ -10,10 +10,10 @@ import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mobile.pokeapiapp.PokemonStat
-import com.mobile.pokeapiapp.PokemonViewModel
+import com.mobile.pokeapiapp.repository.api.model.PokemonStat
+import com.mobile.pokeapiapp.viewModel.PokemonViewModel
 import com.mobile.pokeapiapp.R
-import com.mobile.pokeapiapp.Utils
+import com.mobile.pokeapiapp.utils.Utils
 import com.mobile.pokeapiapp.databinding.PokemonFragmentBinding
 import java.util.*
 

@@ -1,5 +1,6 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.repository.api.client
 
+import com.mobile.pokeapiapp.repository.api.service.PokemonService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +18,7 @@ class ClientRetrofit {
          */
         private fun getClientInstance(): Retrofit {
             val http = OkHttpClient.Builder()
-            if (!::INSTANCE.isInitialized) {
+            if (!Companion::INSTANCE.isInitialized) {
                 INSTANCE = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(http.build())

@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,9 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mobile.pokeapiapp.R
+import com.mobile.pokeapiapp.utils.Utils
+import com.mobile.pokeapiapp.repository.api.model.PokemonModel
 import com.mobile.pokeapiapp.view.PokemonFavoritesFragment
 
 
@@ -18,7 +21,7 @@ import com.mobile.pokeapiapp.view.PokemonFavoritesFragment
  * @param[favList] Uma lista de pokemon favoritos que irão aparecer na lista
  * @param[context] Contexto do [PokemonFavoritesFragment]
  */
-class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,private val context : PokemonFavoritesFragment) :
+class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>, private val context : PokemonFavoritesFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -63,8 +66,8 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,pri
             Glide.with(itemView.context).load(pokemonModel.sprites.frontDefault).into(pokemonImage)
             pokemonFav.visibility = View.GONE
             Glide.with(itemView.context).load("https://cdn-icons-png.flaticon.com/512/7437/7437001.png").into(pokemonPlus)
-            pokemonPlus.layoutParams.height = Utils.convertDpToPx(itemView.context,30.0).toInt()
-            pokemonPlus.layoutParams.width = Utils.convertDpToPx(itemView.context,30.0).toInt()
+            pokemonPlus.layoutParams.height = Utils.convertDpToPx(itemView.context, 30.0).toInt()
+            pokemonPlus.layoutParams.width = Utils.convertDpToPx(itemView.context, 30.0).toInt()
             pokemonPlus.setOnClickListener {
                 removeFavorite(pokemonModel.id)
             }

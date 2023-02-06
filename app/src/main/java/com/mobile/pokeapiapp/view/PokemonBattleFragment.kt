@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.mobile.pokeapiapp.PokemonBattleViewModel
-import com.mobile.pokeapiapp.PokemonStat
-import com.mobile.pokeapiapp.PokemonViewModel
+import com.mobile.pokeapiapp.viewModel.PokemonBattleViewModel
+import com.mobile.pokeapiapp.repository.api.model.PokemonStat
+import com.mobile.pokeapiapp.viewModel.PokemonViewModel
 import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.PokemonBattleFragmentBinding
 import java.util.*

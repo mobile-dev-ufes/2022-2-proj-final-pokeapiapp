@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.repository.api.model
 
 import com.google.gson.annotations.SerializedName
 

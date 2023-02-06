@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.R
-import com.mobile.pokeapiapp.UserModel
+import com.mobile.pokeapiapp.data.model.UserModel
 import com.mobile.pokeapiapp.databinding.SignupFragmentBinding
 
 /**

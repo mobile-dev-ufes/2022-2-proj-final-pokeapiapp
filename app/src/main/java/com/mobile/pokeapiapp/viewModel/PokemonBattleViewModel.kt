@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Observable

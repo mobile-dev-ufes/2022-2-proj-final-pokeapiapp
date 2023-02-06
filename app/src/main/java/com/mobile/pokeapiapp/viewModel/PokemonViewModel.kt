@@ -1,8 +1,10 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mobile.pokeapiapp.repository.api.client.ClientRetrofit
+import com.mobile.pokeapiapp.repository.api.model.PokemonModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

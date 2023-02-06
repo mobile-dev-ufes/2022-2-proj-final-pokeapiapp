@@ -18,6 +18,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.mobile.pokeapiapp.*
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
+import com.mobile.pokeapiapp.repository.api.client.ClientRetrofit
+import com.mobile.pokeapiapp.repository.api.model.PokemonListModel
+import com.mobile.pokeapiapp.repository.api.model.PokemonModel
+import com.mobile.pokeapiapp.utils.Utils
+import com.mobile.pokeapiapp.view.adapter.PokemonAdapter
+import com.mobile.pokeapiapp.viewModel.PokemonBattleViewModel
 import kotlinx.coroutines.*
 import java.lang.Runnable
 

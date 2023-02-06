@@ -1,5 +1,7 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.repository.api.service
 
+import com.mobile.pokeapiapp.repository.api.model.PokemonListModel
+import com.mobile.pokeapiapp.repository.api.model.PokemonModel
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

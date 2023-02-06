@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.utils
 
 import android.content.Context
 
@@ -42,6 +42,5 @@ class Utils {
         }
     }
 
+    data class InfoPokemonTypeColor(val background: String, val fontColor: String) {}
 }
-
-data class InfoPokemonTypeColor(val background: String, val fontColor: String) {}

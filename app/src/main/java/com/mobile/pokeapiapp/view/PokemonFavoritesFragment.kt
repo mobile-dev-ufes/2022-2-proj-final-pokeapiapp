@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mobile.pokeapiapp.ClientRetrofit
-import com.mobile.pokeapiapp.FavoritesPokemonAdapter
-import com.mobile.pokeapiapp.PokemonModel
+import com.mobile.pokeapiapp.repository.api.client.ClientRetrofit
+import com.mobile.pokeapiapp.view.adapter.FavoritesPokemonAdapter
+import com.mobile.pokeapiapp.repository.api.model.PokemonModel
 import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.PokemonFavoritesFragmentBinding
 import kotlinx.coroutines.CoroutineScope

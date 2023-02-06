@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +13,10 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mobile.pokeapiapp.viewModel.PokemonBattleViewModel
+import com.mobile.pokeapiapp.R
+import com.mobile.pokeapiapp.utils.Utils
+import com.mobile.pokeapiapp.repository.api.model.PokemonListModel
 import com.mobile.pokeapiapp.view.PokemonListFragment
 import java.util.*
 
@@ -161,7 +165,8 @@ class PokemonAdapter(
             favorite: Boolean,
             context: PokemonListFragment,
         ) {
-            pokemonBattleVM = ViewModelProvider(context.requireActivity()).get(com.mobile.pokeapiapp.PokemonBattleViewModel::class.java)
+            pokemonBattleVM = ViewModelProvider(context.requireActivity()).get(
+                PokemonBattleViewModel::class.java)
             val pkmId = Utils.extractPokemonNumber(pokemon.url)
             this.favorite = favorite
             itemView.setOnClickListener { context .showCustomDialog(pkmId) }
