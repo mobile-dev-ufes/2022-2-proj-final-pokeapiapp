@@ -11,6 +11,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
+
+/**
+ * Classe que faz a manipulação da RecyclerView da pággina de favoritos
+ * @param[favList] Uma lista de pokemon favoritos que irão aparecer na lista
+ * @param[context] Contexto do [PokemonFavoritesFragment]
+ */
 class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,private val context : PokemonFavoritesFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -27,12 +33,15 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,pri
 
     override fun getItemCount() = favList.size
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        lateinit var adapter: FavoritesPokemonAdapter
-        constructor(itemView: View,adapter: FavoritesPokemonAdapter):this(itemView){
-            this.adapter = adapter
-        }
+    /**
+     * Classe que ira manipular cada item da [RecyclerView]
+     *
+     * @param [itemView] view que represenda uma instancia  do pokemon_list_item.xml
+     * @param [adapter] contexto do [FavoritesPokemonAdapter] para conseguir remover um item da lista
+     */
+    class ViewHolder(itemView: View, private val adapter: FavoritesPokemonAdapter): RecyclerView.ViewHolder(itemView){
+
         private val pokemonName = itemView.findViewById<TextView>(R.id.pkmnameID)
         private val pokemonImage = itemView.findViewById<ImageView>(R.id.pkmitemID)
         private val pokemonFav = itemView.findViewById<ImageView>(R.id.pkmfavID)
@@ -41,6 +50,12 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,pri
         private val db = FirebaseFirestore.getInstance()
         private val auth = FirebaseAuth.getInstance()
 
+        /**
+         * "Escreve" o pokemon da tela e cria listeners nos botões
+         *
+         * @param [pokemonModel] O pokemon que irá aparecer naquele item
+         * @param [context] Context do [PokemonFavoritesFragment]
+         */
         fun bind(pokemonModel: PokemonModel, context: PokemonFavoritesFragment) {
             itemView.setOnClickListener{context.showCustomDialog(pokemonModel.id)}
             pokemonName.text = pokemonModel.name
@@ -55,6 +70,11 @@ class FavoritesPokemonAdapter(private val favList: MutableList<PokemonModel>,pri
 
         }
 
+        /**
+         * Ao clicar no botão de excluir, remove o pokemon da lista de favoritos da página e do banco de dados
+         *
+         * @param [pkmId] id do pokemon que será removido da lista
+         */
         private fun removeFavorite(pkmId: Int) {
             val pos = adapterPosition
             db.collection("user").document(auth.uid.toString())

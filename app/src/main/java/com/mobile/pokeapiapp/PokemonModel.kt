@@ -2,6 +2,9 @@ package com.mobile.pokeapiapp
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Classes para pegar informações de um pokemon em especifico na API
+ */
 class PokemonModel {
     @SerializedName("id")
     var id: Int = 0

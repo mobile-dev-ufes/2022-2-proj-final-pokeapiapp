@@ -13,6 +13,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.mobile.pokeapiapp.databinding.LoginFragmentBinding
 
+/**
+ * Fragmento que irá manipular a tela de login do aplicativo
+ */
 class LoginFragment : Fragment(R.layout.login_fragment) {
 
     private var _binding : LoginFragmentBinding? = null
@@ -42,6 +45,9 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 //        }
 //    }
 
+    /**
+     * Controla os campos e faz a validação do login pelo firebase
+     */
     private fun setUpLogin(){
         binding.accessButton.setOnClickListener {
             val email = binding.emailField.text.toString()

@@ -14,6 +14,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.pokeapiapp.databinding.PokemonFragmentBinding
 import java.util.*
 
+/**
+ * Classe que representa uma janela com informações mais especificas do pokemon clicado na listagem
+ */
 class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: PokemonFragmentBinding? = null
     private val binding get() = _binding!!
@@ -58,6 +61,11 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+
+    /**
+     *Seta um observador na varriavel que armazena o pokemon clicado, caso a variavel mude preenche
+     * os valores com os dados do outro pokemon
+     */
     private fun setObserver() {
 
         pokemonVM?.getPokemon()?.observe(this, Observer {

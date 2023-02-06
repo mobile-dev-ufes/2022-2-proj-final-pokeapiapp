@@ -2,6 +2,9 @@ package com.mobile.pokeapiapp
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Classe model de lista de pokemon na API
+ */
 class PokemonListModel {
     @SerializedName("count")
     var count: Int = 0

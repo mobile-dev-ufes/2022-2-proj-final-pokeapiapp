@@ -10,6 +10,11 @@ class ClientRetrofit {
         private lateinit var INSTANCE: Retrofit
         private const val BASE_URL = "https://pokeapi.co/api/v2/"
 
+        /**
+         *
+         *
+         * @return retona uma instancia para um client que fará as requisições na PokeAPI
+         */
         private fun getClientInstance(): Retrofit {
             val http = OkHttpClient.Builder()
             if (!::INSTANCE.isInitialized) {
@@ -21,11 +26,17 @@ class ClientRetrofit {
             }
             return INSTANCE
         }
+
+        /**
+         *
+         * @return uma instancia para um client com rotas criadas
+         */
         fun createPokemonListService(): PokemonService {
             return getClientInstance().create(PokemonService::class.java)
         }
 
     }
+
 
 
 

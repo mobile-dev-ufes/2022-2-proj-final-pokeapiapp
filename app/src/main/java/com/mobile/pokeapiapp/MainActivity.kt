@@ -12,6 +12,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
+
+    /**
+     * Ao criar essa activity seta os listeners nos botões e desabilita o botão que vai para [LoginFragment]
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -52,14 +56,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *  Desabilita um botão presente na Activity
+     *  @param [button] É o botão a ser desativado
+     */
     private fun disableButton(button: Button){
         button.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_lighter, theme))
         button.isEnabled = false
     }
+    /**
+     *  Habilita um botão presente na Activity
+     *  @param [button] É o botão a ser habilitado
+     */
     private fun enableButton(button: Button){
         button.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primary_color_stronger, theme))
         button.isEnabled = true
     }
+
+    /**
+     * Ao se cadastrar ativa o botão de cadastro e desativa o botão de login
+     *
+     * Essa função é chamada ao criar uma conta com sucesso
+     */
     public fun onSignUp() {
         disableButton(binding.loginButton)
         enableButton(binding.signupButton)

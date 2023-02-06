@@ -15,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.SignupFragmentBinding
 
+/**
+ * Fragmento que irá manipular a tela de cadastro do aplicativo
+ */
 class SignUpFragment : Fragment() {
 
     private var _binding : SignupFragmentBinding? = null
@@ -42,6 +45,9 @@ class SignUpFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * Função que valida os campos e cria o usuario na base de dados de autenticação
+     */
     private fun setUpSignup(){
         binding.registerButton.setOnClickListener {
             val email = binding.emailField.text.toString()
@@ -86,6 +92,10 @@ class SignUpFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Cria o usuario no Firestore, com uma lista favoritos vazia
+     */
     private fun addUser(name: String){
         val user = UserModel(name, mutableListOf())
         val currentUserId = auth.currentUser?.uid.toString()

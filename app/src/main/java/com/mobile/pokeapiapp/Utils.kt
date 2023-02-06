@@ -2,6 +2,9 @@ package com.mobile.pokeapiapp
 
 import android.content.Context
 
+/**
+ *  Classe com utilidades do sistema em geral
+ */
 class Utils {
     companion object {
         val color = mapOf(

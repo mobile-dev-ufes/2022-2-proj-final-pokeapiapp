@@ -5,6 +5,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+
+/**
+ * Interface para requisições na API com rotas basicas
+ */
 interface PokemonService {
 
 //    @GET("pokemon")

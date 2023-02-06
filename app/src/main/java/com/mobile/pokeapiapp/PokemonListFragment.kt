@@ -12,6 +12,9 @@ import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.*
 import java.lang.Runnable
 
+/**
+ * Classe que manipula a framnet de listagem de pokemon
+ */
 class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
     private var _binding: PokemonListFragmentBinding? = null
@@ -22,9 +25,10 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
     val context = this
     var filtering = false
 
-
-
-
+    /**
+     * Seta o manager e o adapter do [RecyclerView] e cria um listener para scroll nessa lista, para
+     * caso o elemento mostrado seja o ultimo da lista, adiciona mais elementos a lista.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +61,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
         return binding.root
     }
+
+    /**
+     * Função de buscar pokemon, caso encontre pokemon cria uma lista com eles e mostra na [RecyclerView].
+     * Caso a busca esteja vazia mostra todos os pokemons de volta
+     *
+     * @param [name] o nome do pokemon que está sendo buscado
+     */
     fun findPokemon(name:String){
         if(name == ""){
             (binding.recyclerView.adapter as PokemonAdapter ).filterList(pokemonList.results)
@@ -78,6 +89,10 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
         }
     }
+
+    /**
+     * Função que carrega mais pokemon na [RecyclerView]
+     */
     private fun loadList() {
         if(filtering) return
         pokemonList.results.add(null)
@@ -103,10 +118,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
                     isLoading = false
                 }
             }
-        }, 1000)
+        }, 500)
     }
 
-
+    /**
+     * Função assincrona que pega uma lista de pokemon por requisição na API
+     */
     private suspend fun getPokemonList(): PokemonListModel {
         return withContext(Dispatchers.IO) {
             val call = pokeApiService.getPokemonList()
@@ -118,6 +135,14 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             }
         }
     }
+
+    /**
+     * Busca um pokemon por nome usando a API
+     *
+     * Caso não encontre com pokemon com o nome, retorna null
+     *
+     * @param [name] Nome do pokemon que está sendo buscado
+     */
     private suspend fun getPokemon(name: String): PokemonModel? {
         return withContext(Dispatchers.IO) {
             val call = pokeApiService.getPokemon(name)
@@ -131,6 +156,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
     }
 
+    /**
+     * Chama a classe [PokemonBottomSheetFragment] para mostrar informações do pokemon clicado
+     * e seta o id dele em um Bundle
+     *
+     * @param [pokemonId] id do pokemon que vai aparecer as informações
+     */
     fun showCustomDialog(pokemonId: Int){
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
         val pokemonIdArg = Bundle()
@@ -138,6 +169,13 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         pokemonBottomSheet.arguments = pokemonIdArg
         pokemonBottomSheet.show(requireActivity().supportFragmentManager, pokemonBottomSheet.tag)
     }
+
+    /**
+     * Função assincrona que pega uma lista de pokemon por requisição na API a partir de um offset
+     *
+     * @param [offset] Limite inferior para buscar uma nova lista de pokemon na API
+     * @sample getPokemonList(10) retorna uma lista de pokemon apartir do pokemon 10
+     */
     private suspend fun getPokemonList(offset: Int): PokemonListModel {
         return withContext(Dispatchers.IO) {
             val call = pokeApiService.getPokemonList(offset)

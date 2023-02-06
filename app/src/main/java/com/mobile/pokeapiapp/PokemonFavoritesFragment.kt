@@ -15,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Fragmento que irá manipular a tela de favoritos do aplicativo
+ */
 class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
     private var _binding: PokemonFavoritesFragmentBinding? = null
     private val binding get() = _binding!!
@@ -24,6 +27,10 @@ class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
     val pkmService = ClientRetrofit.createPokemonListService()
 
 
+    /**
+     * Cria uma lista com as informações basicas do pokemon para aparecer a lista de pokemon favoritos
+     * na tela
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +57,11 @@ class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
         return binding.root
     }
 
+    /**
+     * Função assincrona que faz as requisições do pokemon a partir de seu id
+     *
+     * @param [idx] id do pokemon que será buscado na API
+     */
     private suspend fun getPokemon(idx: Int): PokemonModel {
         return withContext(Dispatchers.IO) {
             val call = pkmService.getPokemon(idx)
@@ -62,6 +74,12 @@ class PokemonFavoritesFragment : Fragment(R.layout.pokemon_favorites_fragment) {
         }
     }
 
+    /**
+     * Chama a classe [PokemonBottomSheetFragment] para mostrar informações do pokemon clicado
+     * e seta o id dele em um Bundle
+     *
+     * @param [pokemonId] id do pokemon que vai aparecer as informações
+     */
     fun showCustomDialog(pokemonId: Int) {
         Log.e("PKMID", pokemonId.toString())
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()

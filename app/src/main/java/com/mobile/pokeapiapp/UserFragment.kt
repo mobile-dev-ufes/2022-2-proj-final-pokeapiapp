@@ -10,6 +10,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.pokeapiapp.databinding.UserFragmentBinding
 
+/**
+ * Fragmento que irá manipular a tela do usuario do aplicativo
+ */
 class UserFragment:Fragment(R.layout.user_fragment){
     private var _binding: UserFragmentBinding? = null
     private val binding get() = _binding!!

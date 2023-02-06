@@ -16,6 +16,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 
+/**
+ * Classe que manipula a [RecyclerView] do [PokemonListFragment]
+ *
+ * @param [pokemonList] a lista de pokemon que vai aparecer na lista
+ * @param [context] Contexto para a [PokemonListFragment], é usado para chamar alguns metodos do fragment
+ */
 class PokemonAdapter(
     private var pokemonList: MutableList<PokemonListModel.Pokemon?>,
     private val context: PokemonListFragment,
@@ -29,6 +35,10 @@ class PokemonAdapter(
 
     private val VIEW_TYPE_LOADING = 0
 
+    /**
+     * Pega a lista de favoritos do usuário, caso o pokemon seja favorito aparece uma estrela preenchida no lugar da estrela.
+     * Verifica se o proximo item da lista é um pokemon ou loading, que é usado enquanto o codigo carrega mais pokemons a lista
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         db.collection("user").document(auth.uid.toString())
@@ -52,6 +62,12 @@ class PokemonAdapter(
         return ViewHolder(view)
     }
 
+
+    /**
+     * Uma lista para caso o usuário tenha pesquisado por um pokemon
+     *
+     * @param [filterlist] a nova lista que será mostrada na [RecyclerView]
+     */
     fun filterList(filterlist: MutableList<PokemonListModel.Pokemon?>) {
 
         pokemonList = filterlist
@@ -88,6 +104,9 @@ class PokemonAdapter(
 
     }
 
+    /**
+     * Mostra a barra de progresso do loading
+     */
     private fun showLoadingView(
         loadingViewHolder: LoadingViewHolder,
         position: Int,
@@ -95,10 +114,10 @@ class PokemonAdapter(
 
     }
 
-    fun setOnClickListener(listener: OnItemClickListener) {
-        this.itemClickListener = listener
-    }
 
+    /**
+     * Classe da barra de progresso
+     */
     class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val progressBar = itemView.findViewById<ProgressBar>(R.id.progressBar)
 
@@ -107,11 +126,19 @@ class PokemonAdapter(
         }
     }
 
+    /**
+     * Classe usada caso o filtro não encontre nenhum pokemon
+     */
     class PokemonNotFind(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        init {
+            TODO("")
+        }
     }
 
 
+    /**
+     * Classe que manipula cada pokemon da [RecyclerView]
+     */
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val pokemonName = itemView.findViewById<TextView>(R.id.pkmnameID)
         private val pokemonImage = itemView.findViewById<ImageView>(R.id.pkmitemID)
@@ -122,6 +149,13 @@ class PokemonAdapter(
         private val auth = FirebaseAuth.getInstance()
         private var favorite = false
 
+        /**
+         * "Escreve" o pokemon da tela e cria listeners nos botões
+         *
+         * @param [pokemon] O pokemon que irá aparecer naquele item
+         * @param [favorite] Um bollean que representa se aquele pokemon está ou não nos favoritos do usuário
+         * @param [context] Context do [PokemonListFragment]
+         */
         fun bind(
             pokemon: PokemonListModel.Pokemon,
             favorite: Boolean,
@@ -153,6 +187,12 @@ class PokemonAdapter(
             plusImage.setOnClickListener({})
         }
 
+        /**
+         * Adiciona o pokemon aos favoritos caso ainda não seja favorito.
+         * Remove o pokemon dos favoritos caso ja esteja na lista de favoritos
+         *
+         * @param [pkmId] o id do pokemon que será adicionado ou excluido dos favoritos
+         */
         private fun addFavorite(pkmId: Int?) {
             if (!favorite) {
                 Glide.with(itemView.context)
@@ -173,7 +213,11 @@ class PokemonAdapter(
 
         }
 
-
+        /**
+         * Regex para pegar o id do pokemon a partir de um link, usado para pegar a imagem do pokemon
+         *
+         * @param [url] O id que contem o id do pokemon
+         */
         fun extractPokemonNumber(url: String): Int {
             val regex = """/pokemon/(\d+).*""".toRegex()
             return regex.find(url)?.groupValues?.get(1)!!.toInt()
