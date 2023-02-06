@@ -86,7 +86,7 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
      */
     private fun setPokemon1Observer(){
         pokemonVM.getPokemon1LiveData().observe(viewLifecycleOwner) {
-            if (isFirstTimeObserverPokemon1 && pokemonBattleVM.isPokemon1Set()) {
+            if (isFirstTimeObserverPokemon1 && pokemonBattleVM.isPokemon1Set() && pokemonBattleVM.getPokemon1Id() == it.id) {
                 isFirstTimeObserverPokemon1 = false
                 pokemonVM.getPokemonLiveData().removeObservers(viewLifecycleOwner)
 
@@ -111,7 +111,7 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
      */
     private fun setPokemon2Observer(){
         pokemonVM.getPokemon2LiveData().observe(viewLifecycleOwner) {
-            if (isFirstTimeObserverPokemon2 && pokemonBattleVM.isPokemon2Set()) {
+            if (isFirstTimeObserverPokemon2 && pokemonBattleVM.isPokemon2Set() && pokemonBattleVM.getPokemon2Id() == it.id) {
                 isFirstTimeObserverPokemon2 = false
                 pokemonVM.getPokemonLiveData().removeObservers(viewLifecycleOwner)
                 if (it != null){
