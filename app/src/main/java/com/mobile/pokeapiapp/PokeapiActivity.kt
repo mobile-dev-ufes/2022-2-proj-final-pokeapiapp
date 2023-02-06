@@ -20,7 +20,6 @@ class PokeapiActivity : AppCompatActivity() {
         binding = ActivityPokeapiBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNaviation()
-
     }
 
     fun setBottomNaviation(){
@@ -29,5 +28,4 @@ class PokeapiActivity : AppCompatActivity() {
 
         binding.bottomNavMenu.setupWithNavController(navController)
     }
-
 }

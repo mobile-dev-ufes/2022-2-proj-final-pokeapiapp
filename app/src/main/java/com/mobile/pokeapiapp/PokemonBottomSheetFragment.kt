@@ -30,7 +30,6 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pokemonId = arguments?.getInt("id", 0)!!
-
         pokemonVM = ViewModelProvider(requireActivity()).get(PokemonViewModel::class.java)
     }
 
@@ -40,14 +39,13 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = PokemonFragmentBinding.inflate(inflater, container, false)
-
         setObserver()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pokemonVM?.requestPokemonById(pokemonId)
+        if (pokemonId != 0) pokemonVM?.requestPokemonById(pokemonId)
     }
 
     companion object {
@@ -56,7 +54,7 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        pokemonVM?.getPokemon()?.removeObservers(this)
+        pokemonVM?.getPokemonLiveData()?.removeObservers(this)
         pokemonVM = null
         _binding = null
     }
@@ -68,11 +66,11 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
      */
     private fun setObserver() {
 
-        pokemonVM?.getPokemon()?.observe(this, Observer {
-            if(it.id == this.pokemonId) {
+        pokemonVM?.getPokemonLiveData()?.observe(this) {
+            if (it.id == this.pokemonId) {
                 if (isFirstTimeObserver) {
                     isFirstTimeObserver = false
-                    pokemonVM?.getPokemon()!!.removeObservers(this)
+                    pokemonVM?.getPokemonLiveData()!!.removeObservers(this)
                 }
                 if (it != null) {
                     binding.pokemonCardHeader.text = it.name.replaceFirstChar {
@@ -112,7 +110,7 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.totalValue.text = "0"
                 }
             }
-        })
+        }
 
     }
 }

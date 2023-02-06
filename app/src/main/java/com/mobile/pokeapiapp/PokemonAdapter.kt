@@ -1,6 +1,5 @@
 package com.mobile.pokeapiapp
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +7,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -148,6 +148,7 @@ class PokemonAdapter(
         private val db = FirebaseFirestore.getInstance()
         private val auth = FirebaseAuth.getInstance()
         private var favorite = false
+        private lateinit var pokemonBattleVM: PokemonBattleViewModel
 
         /**
          * "Escreve" o pokemon da tela e cria listeners nos botões
@@ -161,12 +162,11 @@ class PokemonAdapter(
             favorite: Boolean,
             context: PokemonListFragment,
         ) {
-
-            val pkmId = extractPokemonNumber(pokemon.url)
+            pokemonBattleVM = ViewModelProvider(context.requireActivity()).get(com.mobile.pokeapiapp.PokemonBattleViewModel::class.java)
+            val pkmId = Utils.extractPokemonNumber(pokemon.url)
             this.favorite = favorite
-            itemView.setOnClickListener { context.showCustomDialog(pkmId) }
-            val imgUrl =
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pkmId.png"
+            itemView.setOnClickListener { context .showCustomDialog(pkmId) }
+            val imgUrl = Utils.getSpriteURL(pkmId)
             val pattern = "(.*)-".toRegex()
             pokemonName.text = pattern.find(pokemon.name)?.groupValues?.get(1)?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
@@ -184,7 +184,9 @@ class PokemonAdapter(
             favoriteImage.setOnClickListener {
                 addFavorite(pkmId)
             }
-            plusImage.setOnClickListener({})
+            plusImage.setOnClickListener {
+                pokemonBattleVM?.setPokemon(pkmId)
+            }
         }
 
         /**
@@ -211,16 +213,6 @@ class PokemonAdapter(
 
             }
 
-        }
-
-        /**
-         * Regex para pegar o id do pokemon a partir de um link, usado para pegar a imagem do pokemon
-         *
-         * @param [url] O id que contem o id do pokemon
-         */
-        fun extractPokemonNumber(url: String): Int {
-            val regex = """/pokemon/(\d+).*""".toRegex()
-            return regex.find(url)?.groupValues?.get(1)!!.toInt()
         }
     }
 

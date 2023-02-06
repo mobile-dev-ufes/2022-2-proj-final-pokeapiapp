@@ -31,6 +31,15 @@ class Utils {
         fun convertDpToPx(context: Context, dp: Double): Double {
             return dp * context.resources.displayMetrics.density
         }
+
+        fun extractPokemonNumber(url: String): Int {
+            val regex = """/pokemon/(\d+).*""".toRegex()
+            return regex.find(url)?.groupValues?.get(1)!!.toInt()
+        }
+
+        fun getSpriteURL(id: Int): String {
+            return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
+        }
     }
 
 }

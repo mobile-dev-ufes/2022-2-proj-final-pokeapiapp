@@ -47,5 +47,10 @@
     <string name="pokemon_default_header">Pokemon</string>
     <string name="find_text">Nome do Pokemon</string>
     <string name="favorite_text">Lista de Favoritos</string>
+    <string name="draw_text">EMPATE</string>
+    <string name="winner_text">VENCEDOR</string>
+    <string name="loser_text">PERDEDOR</string>
+    <string name="select_both_pokemon">Selecione os dois pokemons para saber qual será o vencedor</string>
+
 
 </resources>
