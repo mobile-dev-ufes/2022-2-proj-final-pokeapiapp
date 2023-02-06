@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PokeapiApp"
         tools:targetApi="31">
         <activity
-            android:name=".PokeapiActivity"
+            android:name=".view.PokeapiActivity"
             android:exported="false"
             >
             <meta-data
@@ -22,7 +22,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
             >
 

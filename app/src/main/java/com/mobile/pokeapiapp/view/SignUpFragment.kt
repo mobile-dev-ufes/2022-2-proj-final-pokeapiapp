@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mobile.pokeapiapp.R
+import com.mobile.pokeapiapp.UserModel
 import com.mobile.pokeapiapp.databinding.SignupFragmentBinding
 
 /**

@@ -1,10 +1,11 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.ActivityPokeapiBinding
 
 

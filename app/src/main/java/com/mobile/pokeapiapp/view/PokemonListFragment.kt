@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.graphics.Color
 import android.os.Bundle
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
+import com.mobile.pokeapiapp.*
 import com.mobile.pokeapiapp.databinding.PokemonListFragmentBinding
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -96,7 +97,7 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
      */
     fun findPokemon(name:String){
         if(name == ""){
-            (binding.recyclerView.adapter as PokemonAdapter ).filterList(pokemonList.results)
+            (binding.recyclerView.adapter as PokemonAdapter).filterList(pokemonList.results)
             filtering= false
             return
         }
@@ -105,12 +106,12 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             val pokemon = getPokemon(name)
 
             if(pokemon != null){
-                (binding.recyclerView.adapter as PokemonAdapter ).filterList(mutableListOf(
-                    PokemonListModel.Pokemon(pokemon.name,pokemon.sprites.frontDefault)
+                (binding.recyclerView.adapter as PokemonAdapter).filterList(mutableListOf(
+                    PokemonListModel.Pokemon(pokemon.name, pokemon.sprites.frontDefault)
                 ))
 
             }
-            else (binding.recyclerView.adapter as PokemonAdapter ).filterList(mutableListOf())
+            else (binding.recyclerView.adapter as PokemonAdapter).filterList(mutableListOf())
 //            binding.recyclerView.adapter!!.notifyDataSetChanged()
 
         }

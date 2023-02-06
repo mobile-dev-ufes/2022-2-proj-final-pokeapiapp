@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/pokemonListFragment"
-        android:name="com.mobile.pokeapiapp.PokemonListFragment"
+        android:name="com.mobile.pokeapiapp.view.PokemonListFragment"
         android:label="PokemonListFragment">
         <action
             android:id="@+id/action_pokemonListFragment_to_userFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/pokemonBattleFragment"
-        android:name="com.mobile.pokeapiapp.PokemonBattleFragment"
+        android:name="com.mobile.pokeapiapp.view.PokemonBattleFragment"
         android:label="PokemonBattleFragment">
         <action
             android:id="@+id/action_pokemonBattleFragment_to_pokemonListFragment"
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/pokemonFavoritesFragment"
-        android:name="com.mobile.pokeapiapp.PokemonFavoritesFragment"
+        android:name="com.mobile.pokeapiapp.view.PokemonFavoritesFragment"
         android:label="PokemonFavoritesFragment">
         <action
             android:id="@+id/action_pokemonFavoritesFragment_to_pokemonBattleFragment"
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.mobile.pokeapiapp.UserFragment"
+        android:name="com.mobile.pokeapiapp.view.UserFragment"
         android:label="UserFragment">
         <action
             android:id="@+id/action_userFragment_to_pokemonListFragment"

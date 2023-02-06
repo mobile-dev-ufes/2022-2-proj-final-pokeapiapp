@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.mobile.pokeapiapp.PokemonBattleViewModel
+import com.mobile.pokeapiapp.PokemonStat
+import com.mobile.pokeapiapp.PokemonViewModel
+import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.PokemonBattleFragmentBinding
 import java.util.*
 
@@ -144,19 +148,31 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
     private fun fight(){
         if (pokemon1Total > pokemon2Total) {
             binding.pokemon1FightStatus.text = getString(R.string.winner_text)
-            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.winner_container))
+            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.winner_container
+            ))
             binding.pokemon2FightStatus.text = getString(R.string.loser_text)
-            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.loser_container))
+            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.loser_container
+            ))
         } else if (pokemon1Total < pokemon2Total) {
             binding.pokemon1FightStatus.text = getString(R.string.loser_text)
-            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.loser_container))
+            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.loser_container
+            ))
             binding.pokemon2FightStatus.text = getString(R.string.winner_text)
-            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.winner_container))
+            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.winner_container
+            ))
         } else {
             binding.pokemon1FightStatus.text = getString(R.string.draw_text)
-            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.draw_container))
+            binding.pokemon1CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.draw_container
+            ))
             binding.pokemon2FightStatus.text = getString(R.string.draw_text)
-            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.draw_container))
+            binding.pokemon2CardContainer.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                R.color.draw_container
+            ))
         }
     }
 }

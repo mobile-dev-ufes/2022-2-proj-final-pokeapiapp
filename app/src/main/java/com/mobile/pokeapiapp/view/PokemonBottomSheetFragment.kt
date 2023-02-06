@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.setPadding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mobile.pokeapiapp.PokemonStat
+import com.mobile.pokeapiapp.PokemonViewModel
+import com.mobile.pokeapiapp.R
+import com.mobile.pokeapiapp.Utils
 import com.mobile.pokeapiapp.databinding.PokemonFragmentBinding
 import java.util.*
 

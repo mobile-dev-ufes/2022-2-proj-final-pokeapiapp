@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

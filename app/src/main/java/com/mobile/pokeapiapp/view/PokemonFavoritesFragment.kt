@@ -1,4 +1,4 @@
-package com.mobile.pokeapiapp
+package com.mobile.pokeapiapp.view
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mobile.pokeapiapp.ClientRetrofit
+import com.mobile.pokeapiapp.FavoritesPokemonAdapter
+import com.mobile.pokeapiapp.PokemonModel
+import com.mobile.pokeapiapp.R
 import com.mobile.pokeapiapp.databinding.PokemonFavoritesFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
