@@ -28,7 +28,7 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         pokemonVM = ViewModelProvider(requireActivity()).get(PokemonViewModel::class.java)
         pokemonBattleVM = ViewModelProvider(requireActivity()).get(PokemonBattleViewModel::class.java)
         if (!pokemonBattleVM.isBothPokemonSet()){
-            Toast.makeText(this.context, "Selecione os dois pokemons para saber qual será o vencedor", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, getString(R.string.select_both_pokemon), Toast.LENGTH_SHORT).show()
         }
         isBothPokemonSet = pokemonBattleVM.isBothPokemonSet()
     }
@@ -42,51 +42,79 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         setPokemon1Observer()
         setPokemon2Observer()
         if (pokemonBattleVM.isPokemon1Set()) pokemonVM.requestBattlePokemonById(pokemonBattleVM.getPokemon1Id(), 1)
+        else unsetPokemon1()
         if (pokemonBattleVM.isPokemon2Set()) pokemonVM.requestBattlePokemonById(pokemonBattleVM.getPokemon2Id(), 2)
+        else unsetPokemon2()
+
+        binding.pokemon1Card.setOnClickListener{
+            showCustomDialog(pokemonBattleVM.getPokemon1Id())
+        }
+        binding.pokemon2Card.setOnClickListener{
+            showCustomDialog(pokemonBattleVM.getPokemon2Id())
+        }
+
         return binding.root
+    }
+
+    fun unsetPokemon1(){
+        Glide.with(this).load(R.drawable.pokeapi_256).into(binding.pokemon1Sprite)
+        binding.pokemon1Name.text = resources.getText(R.string.pokemon_default_header)
+        binding.pokemon1TotalValue.text = "0"
+    }
+    fun unsetPokemon2(){
+        Glide.with(this).load(R.drawable.pokeapi_256).into(binding.pokemon2Sprite)
+        binding.pokemon2Name.text = resources.getText(R.string.pokemon_default_header)
+        binding.pokemon2TotalValue.text = "0"
     }
 
     private fun setPokemon1Observer(){
         pokemonVM.getPokemon1LiveData().observe(viewLifecycleOwner) {
-            if (isFirstTimeObserverPokemon1) {
+            if (isFirstTimeObserverPokemon1 && pokemonBattleVM.isPokemon1Set()) {
                 isFirstTimeObserverPokemon1 = false
                 pokemonVM.getPokemonLiveData().removeObservers(viewLifecycleOwner)
-            }
 
-            if (it != null){
-                binding.pokemon1Name.text = it.name.replaceFirstChar {
-                    it.titlecase(Locale.getDefault())
+                if (it != null){
+                    binding.pokemon1Name.text = it.name.replaceFirstChar {
+                        it.titlecase(Locale.getDefault())
+                    }
+
+                    Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemon1Sprite)
                 }
 
-                Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemon1Sprite)
+                pokemon1Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
+
+                binding.pokemon1TotalValue.text = pokemon1Total.toString()
+                fight()
             }
-
-            pokemon1Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
-
-            binding.pokemon1TotalValue.text = pokemon1Total.toString()
-            fight()
         }
     }
     private fun setPokemon2Observer(){
         pokemonVM.getPokemon2LiveData().observe(viewLifecycleOwner) {
-            if (isFirstTimeObserverPokemon2) {
+            if (isFirstTimeObserverPokemon2 && pokemonBattleVM.isPokemon2Set()) {
                 isFirstTimeObserverPokemon2 = false
                 pokemonVM.getPokemonLiveData().removeObservers(viewLifecycleOwner)
-            }
+                if (it != null){
+                    binding.pokemon2Name.text = it.name.replaceFirstChar {
+                        it.titlecase(Locale.getDefault())
+                    }
 
-            if (it != null){
-                binding.pokemon2Name.text = it.name.replaceFirstChar {
-                    it.titlecase(Locale.getDefault())
+                    Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemon2Sprite)
                 }
 
-                Glide.with(this).load(it.sprites.frontDefault).into(binding.pokemon2Sprite)
+                pokemon2Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
+
+                binding.pokemon2TotalValue.text = pokemon2Total.toString()
+                fight()
             }
-
-            pokemon2Total = it.stats.fold(0) { acc: Int, pokemonStat: PokemonStat -> (acc + pokemonStat.baseStat) }
-
-            binding.pokemon2TotalValue.text = pokemon2Total.toString()
-            fight()
         }
+    }
+
+    fun showCustomDialog(pokemonId: Int){
+        val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
+        val pokemonIdArg = Bundle()
+        pokemonIdArg.putInt("id", pokemonId)
+        pokemonBottomSheet.arguments = pokemonIdArg
+        pokemonBottomSheet.show(requireActivity().supportFragmentManager, pokemonBottomSheet.tag)
     }
 
     private fun fight(){

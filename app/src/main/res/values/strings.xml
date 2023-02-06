@@ -50,5 +50,7 @@
     <string name="draw_text">EMPATE</string>
     <string name="winner_text">VENCEDOR</string>
     <string name="loser_text">PERDEDOR</string>
+    <string name="select_both_pokemon">Selecione os dois pokemons para saber qual será o vencedor</string>
+
 
 </resources>

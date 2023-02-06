@@ -3,15 +3,12 @@ package com.mobile.pokeapiapp
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +72,14 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
 
         return binding.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (snackbar.isShown) {
+            snackbar.dismiss()
+        }
+    }
+
     fun findPokemon(name:String){
         if(name == ""){
             (binding.recyclerView.adapter as PokemonAdapter ).filterList(pokemonList.results)
@@ -174,7 +179,6 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
         val customSnackView: View = layoutInflater.inflate(R.layout.custom_snackbar, null)
         snackbar.view.setBackgroundColor(Color.TRANSPARENT)
         val snackLayout = snackbar.view as SnackbarLayout
-        snackLayout.setPadding(0,0,0,150)
         val btnErasePokemon1: Button = customSnackView.findViewById(R.id.pokemon_1_remove_button)
         val btnErasePokemon2: Button = customSnackView.findViewById(R.id.pokemon_2_remove_button)
         btnErasePokemon1.setOnClickListener{
@@ -184,6 +188,28 @@ class PokemonListFragment : Fragment(R.layout.pokemon_list_fragment) {
             pokemonBattleVM.unsetPokemon(2)
         }
         snackLayout.addView(customSnackView, 0)
+        val view = snackbar.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin + 150)
+        snackbar.view.layoutParams = params
+
+        if (pokemonBattleVM.isAnyPokemonSet()) {
+            var imageView = customSnackView.findViewById<View>(R.id.pokemon_1_snack_sprite)
+            if (!pokemonBattleVM.isPokemon1Set()){
+                Glide.with(this).load(R.drawable.empty).into(imageView as ImageView)
+            } else {
+                Glide.with(this).load(Utils.getSpriteURL(pokemonBattleVM.getPokemon1Id())).into(imageView as ImageView)
+            }
+
+            imageView = customSnackView.findViewById<View>(R.id.pokemon_2_snack_sprite)
+            if (!pokemonBattleVM.isPokemon2Set()){
+                Glide.with(this).load(R.drawable.empty).into(imageView as ImageView)
+            } else {
+                Glide.with(this).load(Utils.getSpriteURL(pokemonBattleVM.getPokemon2Id())).into(imageView as ImageView)
+            }
+
+            snackbar.show()
+        }
 
         pokemonBattleVM.getPokemon1Observable().subscribe{
             val imageView = customSnackView.findViewById<View>(R.id.pokemon_1_snack_sprite)

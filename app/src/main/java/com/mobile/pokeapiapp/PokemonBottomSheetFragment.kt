@@ -42,7 +42,7 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pokemonVM?.requestPokemonById(pokemonId)
+        if (pokemonId != 0) pokemonVM?.requestPokemonById(pokemonId)
     }
 
     companion object {
@@ -58,8 +58,8 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setObserver() {
 
-        pokemonVM?.getPokemonLiveData()?.observe(this, Observer {
-            if(it.id == this.pokemonId) {
+        pokemonVM?.getPokemonLiveData()?.observe(this) {
+            if (it.id == this.pokemonId) {
                 if (isFirstTimeObserver) {
                     isFirstTimeObserver = false
                     pokemonVM?.getPokemonLiveData()!!.removeObservers(this)
@@ -102,7 +102,7 @@ class PokemonBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.totalValue.text = "0"
                 }
             }
-        })
+        }
 
     }
 }
