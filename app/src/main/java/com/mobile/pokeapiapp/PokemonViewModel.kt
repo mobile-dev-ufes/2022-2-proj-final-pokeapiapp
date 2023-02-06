@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 /**
- *
+ * Classe ViewModel para controle dos dados da tela de batalha de pokemon e do card de pokemon
  */
 class PokemonViewModel: ViewModel() {
 
@@ -17,17 +17,33 @@ class PokemonViewModel: ViewModel() {
     private var pokemon2LiveData = MutableLiveData<PokemonModel>()
     val pokeapiService = ClientRetrofit.createPokemonListService()
 
+    /**
+     *  Observavel responsavel pelos pokemon desenhados nos cards com detalhes
+     */
     fun getPokemonLiveData(): LiveData<PokemonModel>{
         return pokemonLiveData
     }
 
+    /**
+     * Observavel responsavel pelo preenchimento de detalhes do pokemon
+     * da posição 1 da tela de batalha
+     */
     fun getPokemon1LiveData(): LiveData<PokemonModel>{
         return pokemon1LiveData
     }
+
+    /**
+     * Observavel responsavel pelo preenchimento de detalhes do pokemon
+     * da posição 2 da tela de batalha
+     */
     fun getPokemon2LiveData(): LiveData<PokemonModel>{
         return pokemon2LiveData
     }
 
+    /**
+     * Requisição simples para popular o card com detalhes de pokemon
+     * @param[id] Id do pokemon a ser buscado
+     */
     fun requestPokemonById(id: Int) {
         val pokemonResponse: Call<PokemonModel> = pokeapiService.getPokemon(id)
         pokemonResponse.enqueue(object : Callback<PokemonModel> {
@@ -41,6 +57,11 @@ class PokemonViewModel: ViewModel() {
         })
     }
 
+    /**
+     * Requisição para popular um slot da tela de batalha
+     * @param[id] Id do pokemon a ser buscado
+     * @param[opponent] Posição na qual ele será colocado
+     */
     fun requestBattlePokemonById(id: Int, opponent: Int) {
         val pokemonResponse: Call<PokemonModel> = pokeapiService.getPokemon(id)
         pokemonResponse.enqueue(object : Callback<PokemonModel> {

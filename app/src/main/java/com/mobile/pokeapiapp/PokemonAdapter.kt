@@ -49,8 +49,6 @@ class PokemonAdapter(
                 favs.forEach { it -> this.favorites.add(it ); this.notifyItemChanged(it-1) }
             }
 
-//        Log.e("print",favorites.size.toString())
-//        favorites.forEach { it->Log.e("FAV",it.toString()) }
         if (viewType == VIEW_TYPE_LOADING) {
             val view: View =
                 LayoutInflater.from(parent.context)

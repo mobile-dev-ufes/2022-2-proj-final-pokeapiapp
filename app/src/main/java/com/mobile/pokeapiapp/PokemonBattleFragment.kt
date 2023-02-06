@@ -59,17 +59,27 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         return binding.root
     }
 
+    /**
+     * Limpa o slot 1 da tela de batalha
+     */
     fun unsetPokemon1(){
         Glide.with(this).load(R.drawable.pokeapi_256).into(binding.pokemon1Sprite)
         binding.pokemon1Name.text = resources.getText(R.string.pokemon_default_header)
         binding.pokemon1TotalValue.text = "0"
     }
+    /**
+     * Limpa o slot 2 da tela de batalha
+     */
     fun unsetPokemon2(){
         Glide.with(this).load(R.drawable.pokeapi_256).into(binding.pokemon2Sprite)
         binding.pokemon2Name.text = resources.getText(R.string.pokemon_default_header)
         binding.pokemon2TotalValue.text = "0"
     }
 
+    /**
+     * Configura o que acontecerá quando chegar a reposta da requisição por id do pokemon para o
+     * slot 1 da tela de batalha
+     */
     private fun setPokemon1Observer(){
         pokemonVM.getPokemon1LiveData().observe(viewLifecycleOwner) {
             if (isFirstTimeObserverPokemon1 && pokemonBattleVM.isPokemon1Set()) {
@@ -91,6 +101,10 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
             }
         }
     }
+    /**
+     * Configura o que acontecerá quando chegar a reposta da requisição por id do pokemon para o
+     * slot 2 da tela de batalha
+     */
     private fun setPokemon2Observer(){
         pokemonVM.getPokemon2LiveData().observe(viewLifecycleOwner) {
             if (isFirstTimeObserverPokemon2 && pokemonBattleVM.isPokemon2Set()) {
@@ -112,6 +126,10 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         }
     }
 
+    /**
+     * Abre o card com detalhes do pokemon
+     * @param[pokemonId] Id do pokemon a ser mostrado no card
+     */
     fun showCustomDialog(pokemonId: Int){
         val pokemonBottomSheet = PokemonBottomSheetFragment.newInstance()
         val pokemonIdArg = Bundle()
@@ -120,6 +138,9 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         pokemonBottomSheet.show(requireActivity().supportFragmentManager, pokemonBottomSheet.tag)
     }
 
+    /**
+     * Lógica para decidir qual o pokemon vencedor ou empate
+     */
     private fun fight(){
         if (pokemon1Total > pokemon2Total) {
             binding.pokemon1FightStatus.text = getString(R.string.winner_text)

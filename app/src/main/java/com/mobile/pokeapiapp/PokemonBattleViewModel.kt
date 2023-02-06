@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
 
+/**
+ * Classe ViewModel para controle dos dados da tela de batalha de pokemon
+ */
 class PokemonBattleViewModel : ViewModel() {
     private var pokemon1Id = 0
     private var pokemon2Id = 0
@@ -11,6 +14,10 @@ class PokemonBattleViewModel : ViewModel() {
     private var pokemon2Observable = PublishSubject.create<Int>()
     private var anyPokemonSetObservable = PublishSubject.create<Boolean>()
 
+    /**
+     * Seta um pokemon para alguma posição vazia no duelo de pokemon
+     * @param[id] id do pokemon a ser setado
+     */
     fun setPokemon(id: Int){
         if (pokemon1Id == 0){
             pokemon1Id = id
@@ -40,6 +47,10 @@ class PokemonBattleViewModel : ViewModel() {
         return pokemon2Id != 0
     }
 
+    /**
+     *  Remove o pokemon na posição indicada
+     *  @param[opponent] posição na qual se deseja remover o pokemon setado (1 ou 2)
+     */
     fun unsetPokemon(opponent: Int){
         if(opponent == 1){
             pokemon1Id = 0
