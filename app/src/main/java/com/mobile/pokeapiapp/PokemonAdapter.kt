@@ -7,6 +7,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -103,14 +104,14 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
         private val db = FirebaseFirestore.getInstance()
         private val auth = FirebaseAuth.getInstance()
         private var favorite = false
+        private lateinit var pokemonBattleVM: PokemonBattleViewModel
 
         fun bind(pokemon: PokemonListModel.Pokemon,favorite : Boolean, context: PokemonListFragment) {
-
-            val pkmId = extractPokemonNumber(pokemon.url)
+            pokemonBattleVM = ViewModelProvider(context.requireActivity()).get(com.mobile.pokeapiapp.PokemonBattleViewModel::class.java)
+            val pkmId = Utils.extractPokemonNumber(pokemon.url)
             this.favorite = favorite
             itemView.setOnClickListener { context .showCustomDialog(pkmId) }
-            val imgUrl =
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pkmId.png"
+            val imgUrl = Utils.getSpriteURL(pkmId)
             val pattern = "(.*)-".toRegex()
             pokemonName.text = pattern.find(pokemon.name)?.groupValues?.get(1)?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
@@ -123,7 +124,9 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
             favoriteImage.setOnClickListener {
                 addFatorite(pkmId)
             }
-            plusImage.setOnClickListener({})
+            plusImage.setOnClickListener {
+                pokemonBattleVM?.setPokemon(pkmId)
+            }
         }
         private fun addFatorite(pkmId: Int?) {
             if (!favorite){
@@ -142,13 +145,6 @@ class PokemonAdapter(private var pokemonList: MutableList<PokemonListModel.Pokem
 
             }
 
-        }
-
-
-
-        fun extractPokemonNumber(url: String): Int {
-            val regex = """/pokemon/(\d+).*""".toRegex()
-            return regex.find(url)?.groupValues?.get(1)!!.toInt()
         }
     }
 

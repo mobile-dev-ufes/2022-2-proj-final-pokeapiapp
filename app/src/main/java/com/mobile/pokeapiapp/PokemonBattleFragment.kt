@@ -27,10 +27,10 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         super.onCreate(savedInstanceState)
         pokemonVM = ViewModelProvider(requireActivity()).get(PokemonViewModel::class.java)
         pokemonBattleVM = ViewModelProvider(requireActivity()).get(PokemonBattleViewModel::class.java)
-        if (pokemonBattleVM.pokemon1Id == 0 || pokemonBattleVM.pokemon2Id == 0){
+        if (!pokemonBattleVM.isBothPokemonSet()){
             Toast.makeText(this.context, "Selecione os dois pokemons para saber qual será o vencedor", Toast.LENGTH_SHORT).show()
         }
-        isBothPokemonSet = (pokemonBattleVM.pokemon1Id != 0 && pokemonBattleVM.pokemon2Id != 0)
+        isBothPokemonSet = pokemonBattleVM.isBothPokemonSet()
     }
 
     override fun onCreateView(
@@ -41,8 +41,8 @@ class PokemonBattleFragment : Fragment(R.layout.pokemon_battle_fragment) {
         _binding = PokemonBattleFragmentBinding.inflate(inflater, container, false)
         setPokemon1Observer()
         setPokemon2Observer()
-        if (pokemonBattleVM.pokemon1Id != 0) pokemonVM.requestBattlePokemonById(pokemonBattleVM.pokemon1Id, 1)
-        if (pokemonBattleVM.pokemon2Id != 0) pokemonVM.requestBattlePokemonById(pokemonBattleVM.pokemon2Id, 2)
+        if (pokemonBattleVM.isPokemon1Set()) pokemonVM.requestBattlePokemonById(pokemonBattleVM.getPokemon1Id(), 1)
+        if (pokemonBattleVM.isPokemon2Set()) pokemonVM.requestBattlePokemonById(pokemonBattleVM.getPokemon2Id(), 2)
         return binding.root
     }
 

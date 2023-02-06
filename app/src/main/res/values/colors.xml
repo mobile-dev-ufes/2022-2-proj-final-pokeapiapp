@@ -14,6 +14,7 @@
     <color name="access_button_color">#FF6EE381</color>
     <color name="signup_button_color">#FF6B95FF</color>
     <color name="signup_return_color">#FFFF4545</color>
+    <color name="remove_pokemon_color">#FB5B5B</color>
     <color name="colorAccent">#FF000000</color>
     <color name="selected_item">#AE1F1F</color>
     <color name="gray_1">#F4F4F4</color>
