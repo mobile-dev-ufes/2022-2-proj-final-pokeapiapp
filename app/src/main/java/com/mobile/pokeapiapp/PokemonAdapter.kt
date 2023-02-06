@@ -96,7 +96,7 @@ class PokemonAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {
-            val idx = holder.extractPokemonNumber(pokemonList[position]!!.url)
+            val idx = Utils.extractPokemonNumber(pokemonList[position]!!.url)
 
             pokemonList[position]?.let { holder.bind(it, favorites.contains(idx), context) }
         } else
